@@ -20,7 +20,6 @@ def application_lister():
                 for file in os.listdir(dir):
                     config = ConfigParser(interpolation=None)
                     if not file.endswith(".desktop"):
-                        print(f"{file} is not a desktop file")
                         continue
 
                     config.read(os.path.join(dir,file),encoding = "utf-8")
@@ -56,4 +55,10 @@ def is_gui_app(entry):  # to filter out all the terminal executables from the gu
     return True
 
 if __name__ == "__main__":
-    application_lister()
+    app = application_lister()
+    
+    for m in app:
+        print(m.get("name"))
+        print("")
+        print(m)
+        print("")
