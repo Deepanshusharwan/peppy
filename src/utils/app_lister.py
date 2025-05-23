@@ -37,8 +37,6 @@ def application_lister():
 
     return app
 
-
-
 def is_gui_app(entry):  # to filter out all the terminal executables from the gui applications
     if entry.get("Type") != "Application":
         return False
