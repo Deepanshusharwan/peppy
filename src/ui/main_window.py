@@ -8,7 +8,7 @@ from PyQt6.QtGui import QPainter, QFont, QColor, QPen
 
 import sys
 
-from ui.widget import OnOffWidget
+from .widget import OnOffWidget
 
 class MainWindow(QMainWindow):
 
