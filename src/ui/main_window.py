@@ -12,20 +12,25 @@ from .widget import OnOffWidget
 
 class MainWindow(QMainWindow):
 
-    def __init__(self, *args, **kwargs):
+    def __init__(self,applications,*args, **kwargs):
         super().__init__(*args,**kwargs)
+
+        self.apps = applications
 
         self.controls = QWidget() # controls container widget
         self.controlsLayout = QVBoxLayout() # controls container layout
+        self.controlsLayout.setSpacing(0)
+        self.controlsLayout.setContentsMargins(0, 0, 0, 0)
 
-        widget_names = ["something","other","this","that","something_good","something nice","party","poppers","one","or","other"]
+        widget_names = [app.get("name") for app in self.apps]
         self.widgets = []
 
         #iterate thee names, creating a new OnOffWidget for 
-        # eachh one, addint it to the layoout and
+        # each one, adding it to the layoout and
         # storing a reference in the self.widgets dict
         for name in widget_names:
-            item = OnOffWidget(name)
+            app_info = self.apps[widget_names.index(name)]
+            item = OnOffWidget(name,app_info)
             self.controlsLayout.addWidget(item)
             self.widgets.append(item)
 
@@ -42,6 +47,7 @@ class MainWindow(QMainWindow):
 
         # searchbar
         self.searchbar = QLineEdit()
+        self.searchbar.setPlaceholderText("Search application....")
         self.searchbar.textChanged.connect(self.update_display)
 
         # TODO make the completer suggestions for autocompletion and display them as the
@@ -55,6 +61,7 @@ class MainWindow(QMainWindow):
         # which encompasses the whole window
         container = QWidget()
         containerLayout = QVBoxLayout()
+        containerLayout.setSpacing(20)
         containerLayout.addWidget(self.searchbar)
         containerLayout.addWidget(self.scroll)
         container.setLayout(containerLayout)
@@ -66,7 +73,7 @@ class MainWindow(QMainWindow):
         self.setWindowTitle("Peppy")       
 
     def update_display(self,text):
-        
+
         for widget in self.widgets:
             if text.lower() in widget.name.lower():
                 widget.show()
