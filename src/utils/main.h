@@ -74,6 +74,7 @@ typedef struct { void *data; GoInt len; GoInt cap; } GoSlice;
 extern "C" {
 #endif
 
+extern char* testjson();
 extern void listApplications();
 
 #ifdef __cplusplus
