@@ -2,31 +2,38 @@ package main
 
 import "C"
 import (
+	"encoding/json"
 	"fmt"
-	"os"
 	"os/exec"
 )
 
+type Factory struct {
+	Industry string `json:"industry"`
+	Place    string `json:"place"`
+}
+
+// NOTE: can't directly return go maps/ slices, thus use JSON
+
+//export testjson
+func testjson() *C.char {
+	factory := Factory{Industry: "automotive", Place: "texas"}
+	jsonData, err := json.Marshal(factory)
+	if err != nil {
+		return C.CString(`{"error": "json encoding failed"}`)
+	}
+	return C.CString(string(jsonData))
+}
+
 //export listApplications
 func listApplications() {
-	// open or create the output file
-	file, err := os.Create("applications.txt")
-	if err != nil {
-		fmt.Println("Failed to create file:", err)
-		return
-	}
-	defer file.Close()
 	cmd := exec.Command("mdfind", "kMDItemKind == 'Application'")
+	output, err := cmd.Output()
 
-	// Redirect command output to the file
-	cmd.Stdout = file
-
-	// Run the command
-	err = cmd.Run()
 	if err != nil {
 		fmt.Println("Command execution error:", err)
 		return
 	}
+	fmt.Print("applications: \n", string(output))
 }
 func main() {
 }
