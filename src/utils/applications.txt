@@ -1,0 +1,326 @@
+/Applications/Safari.app
+/Applications/Ghostty.app
+/Users/gaurav/Library/HTTPStorages/com.apple.ctcategories.service
+/Applications/Alfred 5.app
+/Applications/AdGuard for Safari.app
+/Applications/Hammerspoon.app
+/Applications/Raycast.app
+/Applications/Telegram.app
+/Library/Apple/System/Library/CoreServices/XProtect.app
+/Applications/AlDente.app
+/System/Library/CoreServices/Finder.app
+/System/Library/CoreServices/Family.app
+/System/Library/CoreServices/Installer.app
+/System/Library/CoreServices/KeyboardAccessAgent.app
+/System/Applications/Preview.app
+/System/Applications/System Settings.app
+/System/Applications/Utilities/System Information.app
+/System/Applications/Weather.app
+/System/Applications/Music.app
+/System/Library/Services/Summary Service.app
+/System/Library/CoreServices/Applications/Keychain Access.app
+/System/Library/CoreServices/Applications/Ticket Viewer.app
+/System/Library/CoreServices/Applications/Wireless Diagnostics.app
+/System/Library/CoreServices/Applications/iOS App Installer.app
+/System/Library/CoreServices/Finder.app/Contents/Applications/AirDrop.app
+/System/Library/CoreServices/Finder.app/Contents/Applications/Computer.app
+/System/Library/CoreServices/Finder.app/Contents/Applications/Network.app
+/System/Library/CoreServices/Finder.app/Contents/Applications/Recents.app
+/System/Library/CoreServices/Finder.app/Contents/Applications/iCloud Drive.app
+/System/Library/Classroom/ClassroomStudentMenuExtra.app
+/System/Library/ColorSync/Calibrators/Display Calibrator.app
+/System/Library/CoreServices/AOSUIPrefPaneLauncher.app
+/System/Library/CoreServices/AVB Configuration.app
+/System/Library/CoreServices/AddPrinter.app
+/System/Library/CoreServices/AddressBookUrlForwarder.app
+/System/Library/CoreServices/AirPlayUIAgent.app
+/System/Library/CoreServices/AirPort Base Station Agent.app
+/System/Library/CoreServices/Apple Diagnostics.app
+/System/Library/CoreServices/AppleScript Utility.app
+/System/Library/CoreServices/AskToMessagesHost.app
+/System/Library/CoreServices/Automator Application Stub.app
+/System/Library/CoreServices/Automator Installer.app
+/System/Library/CoreServices/Batteries.app
+/System/Library/CoreServices/BluetoothSetupAssistant.app
+/System/Library/CoreServices/BluetoothUIServer.app
+/System/Library/CoreServices/BluetoothUIService.app
+/System/Library/CoreServices/CalendarFileHandler.app
+/System/Library/CoreServices/Captive Network Assistant.app
+/System/Library/CoreServices/Certificate Assistant.app
+/System/Library/CoreServices/ControlCenter.app
+/System/Library/CoreServices/ControlStrip.app
+/System/Library/CoreServices/CoreLocationAgent.app
+/System/Library/CoreServices/CoreServicesUIAgent.app
+/System/Library/CoreServices/Coverage Details.app
+/System/Library/CoreServices/Database Events.app
+/System/Library/CoreServices/Diagnostics Reporter.app
+/System/Library/CoreServices/DiscHelper.app
+/System/Library/CoreServices/DiskImageMounter.app
+/System/Library/CoreServices/Dock.app
+/System/Library/CoreServices/Dwell Control.app
+/System/Library/CoreServices/Enhanced Logging.app
+/System/Library/CoreServices/Erase Assistant.app
+/System/Library/CoreServices/EscrowSecurityAlert.app
+/System/Library/CoreServices/FileProvider-Feedback.app
+/System/Library/CoreServices/FolderActionsDispatcher.app
+/System/Library/CoreServices/Game Center.app
+/System/Library/CoreServices/IOUIAgent.app
+/System/Library/CoreServices/Image Events.app
+/System/Library/CoreServices/Install Command Line Developer Tools.app
+/System/Library/CoreServices/Install in Progress.app
+/System/Library/CoreServices/Installer Progress.app
+/System/Library/CoreServices/JavaLauncher.app
+/System/Library/CoreServices/KeyboardSetupAssistant.app
+/System/Library/CoreServices/Keychain Circle Notification.app
+/System/Library/CoreServices/Language Chooser.app
+/System/Library/CoreServices/MTLReplayer.app
+/System/Library/CoreServices/ManagedClient.app
+/System/Library/CoreServices/MediaMLPluginApp.app
+/System/Library/CoreServices/Memory Slot Utility.app
+/System/Library/CoreServices/MusicRecognitionMac.app
+/System/Library/CoreServices/NetAuthAgent.app
+/System/Library/CoreServices/NotificationCenter.app
+/System/Library/CoreServices/NowPlayingTouchUI.app
+/System/Library/CoreServices/OBEXAgent.app
+/System/Library/CoreServices/ODSAgent.app
+/System/Library/CoreServices/OSDUIHelper.app
+/System/Library/CoreServices/PIPAgent.app
+/System/Library/CoreServices/Paired Devices.app
+/System/Library/CoreServices/Pass Viewer.app
+/System/Library/CoreServices/PeopleMessageService.app
+/System/Library/CoreServices/PeopleViewService.app
+/System/Library/CoreServices/PowerChime.app
+/System/Library/CoreServices/PreviewShell.app
+/System/Library/CoreServices/Pro Display Calibrator.app
+/System/Library/CoreServices/Problem Reporter.app
+/System/Library/CoreServices/ProfileHelper.app
+/System/Library/CoreServices/RapportUIAgent.app
+/System/Library/CoreServices/RegisterPluginIMApp.app
+/System/Library/CoreServices/RemoteManagement/ARDAgent.app
+/System/Library/CoreServices/RemoteManagement/Remote Desktop Message.app
+/System/Library/CoreServices/RemoteManagement/SSMenuAgent.app
+/System/Library/CoreServices/Rosetta 2 Updater.app
+/System/Library/CoreServices/Screen Time.app
+/System/Library/CoreServices/ScreenSaverEngine.app
+/System/Library/CoreServices/Script Menu.app
+/System/Library/CoreServices/ScriptMonitor.app
+/System/Library/CoreServices/Setup Assistant.app
+/System/Library/CoreServices/ShortcutDroplet.app
+/System/Library/CoreServices/Shortcuts Events.app
+/System/Library/CoreServices/ShortcutsActions.app
+/System/Library/CoreServices/Siri.app
+/System/Library/CoreServices/Software Update.app
+/System/Library/CoreServices/SpacesTouchBarAgent.app
+/System/Library/CoreServices/Spotlight.app
+/System/Library/CoreServices/StageManagerOnboarding.app
+/System/Library/CoreServices/System Events.app
+/System/Library/CoreServices/SystemUIServer.app
+/System/Library/CoreServices/TextInputMenuAgent.app
+/System/Library/CoreServices/TextInputSwitcher.app
+/System/Library/CoreServices/ThermalTrap.app
+/System/Applications/Photos.app
+/System/Applications/Podcasts.app
+/System/Applications/QuickTime Player.app
+/System/Applications/Reminders.app
+/System/Applications/Shortcuts.app
+/System/Applications/Siri.app
+/System/Applications/Stickies.app
+/System/Applications/Stocks.app
+/System/Applications/TV.app
+/System/Applications/TextEdit.app
+/System/Applications/Time Machine.app
+/System/Applications/Tips.app
+/System/Applications/Utilities/Activity Monitor.app
+/System/Applications/Utilities/AirPort Utility.app
+/System/Applications/Utilities/Audio MIDI Setup.app
+/System/Applications/Utilities/Bluetooth File Exchange.app
+/System/Applications/Utilities/Boot Camp Assistant.app
+/System/Applications/Utilities/ColorSync Utility.app
+/System/Applications/Utilities/Console.app
+/System/Applications/Utilities/Digital Color Meter.app
+/System/Applications/Utilities/Disk Utility.app
+/System/Applications/Utilities/Grapher.app
+/System/Applications/Utilities/Migration Assistant.app
+/System/Applications/Utilities/Print Center.app
+/System/Applications/Utilities/Screen Sharing.app
+/System/Applications/Utilities/Screenshot.app
+/System/Applications/Utilities/Script Editor.app
+/System/Applications/Utilities/Terminal.app
+/System/Applications/Utilities/VoiceOver Utility.app
+/System/Applications/VoiceMemos.app
+/System/Applications/iPhone Mirroring.app
+/System/Library/CoreServices/Applications/About This Mac.app
+/System/Library/CoreServices/Applications/Archive Utility.app
+/System/Library/CoreServices/Applications/DVD Player.app
+/System/Library/CoreServices/Applications/Desk View.app
+/System/Library/CoreServices/Applications/Directory Utility.app
+/System/Library/CoreServices/Applications/Expansion Slot Utility.app
+/System/Library/CoreServices/Applications/Feedback Assistant.app
+/System/Library/CoreServices/Applications/Folder Actions Setup.app
+/System/Applications/App Store.app
+/System/Applications/Automator.app
+/System/Applications/Books.app
+/System/Applications/Calculator.app
+/System/Applications/Calendar.app
+/System/Applications/Chess.app
+/System/Applications/Clock.app
+/System/Applications/Contacts.app
+/System/Applications/Dictionary.app
+/System/Applications/FaceTime.app
+/System/Applications/FindMy.app
+/System/Applications/Font Book.app
+/System/Applications/Freeform.app
+/System/Applications/Home.app
+/System/Applications/Image Capture.app
+/System/Applications/Image Playground.app
+/System/Applications/Launchpad.app
+/System/Applications/Mail.app
+/System/Applications/Maps.app
+/System/Applications/Messages.app
+/System/Applications/Mission Control.app
+/System/Applications/Notes.app
+/System/Applications/Passwords.app
+/System/Applications/Photo Booth.app
+/System/Library/CoreServices/TimeMachine/TMHelperAgent.app
+/System/Library/CoreServices/TipsSpotlightHandler.app
+/System/Library/CoreServices/UIKitSystem.app
+/System/Library/CoreServices/UniversalAccessControl.app
+/System/Library/CoreServices/UniversalControl.app
+/System/Library/CoreServices/UnmountAssistantAgent.app
+/System/Library/CoreServices/UserNotificationCenter.app
+/System/Library/CoreServices/VoiceOver.app
+/System/Library/CoreServices/WallpaperAgent.app
+/System/Library/CoreServices/WatchFaceAlert.app
+/System/Library/CoreServices/WiFiAgent.app
+/System/Library/CoreServices/WidgetKit Simulator.app
+/System/Library/CoreServices/WindowManager.app
+/System/Library/CoreServices/WindowManagerShowDesktopEducation.app
+/System/Library/CoreServices/WorkoutAlert-Mac.app
+/System/Library/CoreServices/iCloud+.app
+/System/Library/CoreServices/iCloud.app
+/System/Library/CoreServices/liquiddetectiond.app
+/System/Library/CoreServices/loginwindow.app
+/System/Library/CoreServices/rcd.app
+/System/Library/CoreServices/screencaptureui.app
+/System/Library/Frameworks/AddressBook.framework/Helpers/AddressBookSync.app
+/System/Library/Frameworks/AddressBook.framework/Versions/A/Helpers/ABAssistantService.app
+/System/Library/Frameworks/AddressBook.framework/Versions/A/Helpers/AddressBookManager.app
+/System/Library/Frameworks/AddressBook.framework/Versions/A/Helpers/AddressBookSourceSync.app
+/System/Library/Frameworks/ApplicationServices.framework/Versions/A/Frameworks/ATS.framework/Versions/A/Support/FontRegistryUIAgent.app
+/System/Library/Frameworks/ApplicationServices.framework/Versions/A/Frameworks/SpeechSynthesis.framework/Versions/A/System Speech.app
+/System/Library/Frameworks/CoreMediaIO.framework/Versions/A/Resources/CinematicFramingOnboardingUI.app
+/System/Library/Frameworks/CoreMediaIO.framework/Versions/A/Resources/ContinuityCaptureOnboardingUI.app
+/System/Library/Frameworks/CryptoTokenKit.framework/ctkbind.app
+/System/Library/Frameworks/QuickLook.framework/Versions/A/Resources/qlmanage.app
+/System/Library/Frameworks/QuickLook.framework/Versions/A/Resources/quicklookd.app
+/System/Library/Frameworks/QuickLookUI.framework/Versions/A/Resources/Quick Look Simulator.app
+/System/Library/Frameworks/QuickLookUI.framework/Versions/A/Resources/QuickLookUIHelper.app
+/System/Library/Frameworks/SyncServices.framework/Versions/A/Resources/SyncServer.app
+/System/Library/Frameworks/Tk.framework/Versions/8.5/Resources/Wish.app
+/System/Library/Image Capture/Automatic Tasks/Build Web Page.app
+/System/Library/Image Capture/Automatic Tasks/MakePDF.app
+/System/Library/Image Capture/Devices/AirScanScanner.app
+/System/Library/Input Methods/50onPaletteServer.app
+/System/Library/Input Methods/AinuIM.app
+/System/Library/Input Methods/Assistive Control.app
+/System/Library/Input Methods/CharacterPalette.app
+/System/Library/Input Methods/DictationIM.app
+/System/Library/Input Methods/EmojiFunctionRowIM.app
+/System/Library/Input Methods/JapaneseIM-KanaTyping.app
+/System/Library/Input Methods/JapaneseIM-RomajiTyping.app
+/System/Library/Input Methods/KoreanIM.app
+/System/Library/Input Methods/PluginIM.app
+/System/Library/Input Methods/PressAndHold.app
+/System/Library/Input Methods/SCIM.app
+/System/Library/Input Methods/TCIM.app
+/System/Library/Input Methods/TYIM.app
+/System/Library/Input Methods/TamilIM.app
+/System/Library/Input Methods/TrackpadIM.app
+/System/Library/Input Methods/TransliterationIM.app
+/System/Library/Input Methods/VietnameseIM.app
+/System/Library/PrivateFrameworks/AOSAccounts.framework/Versions/A/Resources/iCloudUserNotificationsd.app
+/System/Library/PrivateFrameworks/AOSKit.framework/Versions/A/Helpers/AOSAlertManager.app
+/System/Library/PrivateFrameworks/AOSKit.framework/Versions/A/Helpers/AOSHeartbeat.app
+/System/Library/PrivateFrameworks/AOSKit.framework/Versions/A/Helpers/AOSPushRelay.app
+/System/Library/PrivateFrameworks/AccessibilitySharedSupport.framework/Versions/A/Resources/Live Captions.app
+/System/Library/PrivateFrameworks/AccessibilitySharedSupport.framework/Versions/A/Resources/LiveSpeech.app
+/System/Library/PrivateFrameworks/AccessibilitySupport.framework/Versions/A/Resources/AccessibilityVisualsAgent.app
+/System/Library/PrivateFrameworks/AmbientDisplay.framework/Versions/A/Resources/Calibration Assistant.app
+/System/Library/PrivateFrameworks/AppSSO.framework/Support/AppSSOAgent.app
+/System/Library/PrivateFrameworks/AppSSOKerberos.framework/Support/KerberosMenuExtra.app
+/System/Library/PrivateFrameworks/AppleMediaServicesUI.framework/Versions/A/Resources/AMSEngagementViewService.app
+/System/Library/PrivateFrameworks/AskPermission.framework/Versions/A/Resources/AskPermissionUI.app
+/System/Library/PrivateFrameworks/AutoFillUI.framework/Contents/AutoFillPanelService.app
+/System/Library/PrivateFrameworks/AutomationMode.framework/AutomationModeUI.app
+/System/Library/PrivateFrameworks/BackgroundTaskManagement.framework/Support/BackgroundTaskManagementAgent.app
+/System/Library/PrivateFrameworks/CommerceKit.framework/Versions/A/Resources/storeuid.app
+/System/Library/PrivateFrameworks/CoreChineseEngine.framework/Versions/A/SharedSupport/CIMFindInputCodeTool.app
+/System/Library/PrivateFrameworks/CoreFollowUp.framework/Versions/A/Resources/FollowUpUI.app
+/System/Library/PrivateFrameworks/DiskImages.framework/Versions/A/Resources/DiskImages UI Agent.app
+/System/Library/PrivateFrameworks/EAP8021X.framework/Support/eaptlstrust.app
+/System/Library/PrivateFrameworks/FamilyControls.framework/Versions/A/Resources/ParentalControls.app
+/System/Library/PrivateFrameworks/FeedbackService.framework/Versions/A/Support/FeedbackRemoteView.app
+/System/Library/PrivateFrameworks/FindMyMac.framework/Versions/A/Resources/FindMyMacMessenger.app
+/System/Library/PrivateFrameworks/IDS.framework/identityservicesd.app
+/System/Library/PrivateFrameworks/IDSFoundation.framework/IDSRemoteURLConnectionAgent.app
+/System/Library/PrivateFrameworks/IMCore.framework/imagent.app
+/System/Library/PrivateFrameworks/IMDPersistence.framework/IMAutomaticHistoryDeletionAgent.app
+/System/Library/PrivateFrameworks/IMTransferServices.framework/IMTransferAgent.app
+/System/Library/PrivateFrameworks/Noticeboard.framework/Versions/A/Resources/nbagent.app
+/System/Library/PrivateFrameworks/PaperKit.framework/Contents/LinkedNotesUIService.app
+/System/Library/PrivateFrameworks/PrivateCloudCompute.framework/privatecloudcomputed.app
+/System/Library/PrivateFrameworks/ScreenReader.framework/Versions/A/Resources/ScreenReaderUIServer.app
+/System/Library/PrivateFrameworks/ScreenReader.framework/Versions/A/Resources/VoiceOver Quickstart.app
+/System/Library/PrivateFrameworks/SkyLight.framework/Versions/A/Resources/AquaAppearanceHelper.app
+/System/Library/PrivateFrameworks/SocialLayer.framework/sociallayerd.app
+/System/Library/PrivateFrameworks/SoftwareUpdate.framework/Versions/A/Resources/SoftwareUpdateNotificationManager.app
+/System/Library/PrivateFrameworks/SpeechObjects.framework/Versions/A/SpeechDataInstallerd.app
+/System/Library/PrivateFrameworks/SpeechObjects.framework/Versions/A/SpeechRecognitionServer.app
+/System/Library/PrivateFrameworks/StorageManagement.framework/Versions/A/Resources/STMUIHelper.app
+/System/Library/PrivateFrameworks/SyncServicesUI.framework/Versions/A/Resources/Conflict Resolver.app
+/System/Library/PrivateFrameworks/SyncServicesUI.framework/Versions/A/Resources/syncuid.app
+/System/Library/PrivateFrameworks/UniversalAccess.framework/Versions/A/Resources/AXVisualSupportAgent.app
+/System/Library/PrivateFrameworks/UniversalAccess.framework/Versions/A/Resources/Accessibility Tutorial.app
+/System/Library/PrivateFrameworks/UniversalAccess.framework/Versions/A/Resources/DFRHUD.app
+/System/Library/PrivateFrameworks/UniversalAccess.framework/Versions/A/Resources/universalAccessAuthWarn.app
+/System/Library/PrivateFrameworks/UserActivity.framework/Agents/UASharedPasteboardProgressUI.app
+/System/Library/PrivateFrameworks/iCloudDriveCore.framework/Versions/A/Resources/iCloud Drive.app
+/System/Library/Services/AppleSpell.service
+/System/Library/Services/ChineseTextConverterService.app
+/System/Library/Services/OpenSpell.service
+/System/Library/Services/SpeechService.service
+/System/Library/Services/Spotlight.service
+/Applications/zoom.us.app
+/Users/gaurav/Library/Application Scripts/group.is.workflow.my.app
+/Library/Apple/System/Library/CoreServices/MRT.app
+/Library/Developer/CommandLineTools/Library/Frameworks/Python3.framework/Versions/3.9/Resources/Python.app
+/Applications/Pages.app
+/Applications/Craft.app
+/Applications/Anki.app
+/Applications/Interval Timer.app
+/Applications/Simple Comic.app
+/Applications/Freenotes.app
+/Applications/Keynote.app
+/Applications/Goodnotes.app
+/Applications/Postman.app
+/Applications/OBS.app
+/Applications/Firefox Developer Edition.app
+/Applications/LetsView.app
+/Applications/WhatsApp.app
+/Applications/Notion.app
+/Applications/Soduto.app
+/Applications/OpenBoard.app
+/Users/gaurav/Library/Application Support/kdeconnect.app
+/Library/PrivilegedHelperTools/com.wacom.UpdateHelper.app
+/Library/PrivilegedHelperTools/com.wacom.IOManager.app
+/Library/PrivilegedHelperTools/com.wacom.DataStoreMgr.app
+/Applications/VN.app
+/Library/Application Support/Script Editor/Templates/Droplets/Recursive File Processing Droplet.app
+/Library/Application Support/Script Editor/Templates/Droplets/Droplet with Settable Properties.app
+/Library/Application Support/Script Editor/Templates/Droplets/Recursive Image File Processing Droplet.app
+/Library/Application Support/Script Editor/Templates/Cocoa-AppleScript Applet.app
+/Library/Apple/System/Library/PrivateFrameworks/MobileDevice.framework/Versions/A/AppleMobileDeviceHelper.app
+/Library/Apple/System/Library/PrivateFrameworks/MobileDevice.framework/Versions/A/Resources/MobileDeviceUpdater.app
+/Library/Apple/System/Library/PrivateFrameworks/MobileDevice.framework/Versions/A/AppleMobileSync.app
+/Library/Image Capture/Support/LegacyDeviceDiscoveryHelpers/AirScanLegacyDiscovery.app
+/Applications/AeroSpace.app
