@@ -2,10 +2,10 @@
 
 
 # === config ===
-APP_NAME = "Peppy"
-ICON_FILE = "peppy.svg"
-EXECUTABLE_NAME = "peppy"
-DESKTOP_FILE = "$HOME/.local/share/applications/$APP_NAME.desktop"
+APP_NAME="Peppy"
+ICON_FILE="peppy.svg"
+EXECUTABLE_NAME="peppy"
+DESKTOP_FILE="$HOME/.local/share/applications/$APP_NAME.desktop"
 
 
 # === making the binary ===
@@ -13,14 +13,15 @@ echo "Making the binary"
 pyinstaller --onefile \
   --name "$EXECUTABLE_NAME" \
   --windowed \
-  --icon="$ICON_FILE"\
+  --icon="$ICON_FILE" \
   --add-data ".venv/lib/python3.13/site-packages/PyQt6/Qt6/plugins/platforms:PyQt6/Qt6/plugins/platforms" \
   src/main.py
 
 
 # === binary installation ===
 echo "installing the binary"
-cp "dist/$" "$HOME/.local/bin"
+mkdir -p "$HOME/.local/bin"
+cp "dist/$EXECUTABLE_NAME" "$HOME/.local/bin"
 
 
 # === .desktop file ===
@@ -34,7 +35,7 @@ Comment=Made with love and experiments
 Exec=$HOME/.local/bin/$EXECUTABLE_NAME
 Icon=$HOME/.local/share/icons/$ICON_FILE
 Terminal=false
-Categories=Utility;System
+Categories=Utility;System;
 EOF
 
 
