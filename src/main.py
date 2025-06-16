@@ -1,35 +1,21 @@
 #!/usr/bin/env python3
-
-import os
 import sys
-import subprocess
-
-from PyQt6.QtWidgets import (QMainWindow,QApplication,QVBoxLayout,QWidget)
+from PyQt6.QtWidgets import (
+    QWidget, QLineEdit, QLabel, QPushButton, QScrollArea, QMainWindow,
+    QApplication, QHBoxLayout, QVBoxLayout, QSpacerItem, QSizePolicy
+    )
 
 
 #from src.utils import app_lister
 from utils import app_lister
 
+# from ui import main_window
+from ui.main_window import MainWindow, QApplication
+
 
 apps = app_lister.application_lister()
 
-
-class MainWindow(QMainWindow):
-
-    def __init__(self, *args, **kwargs):
-        super().__init__(*args,**kwargs)
-
-        container = QWidget()
-        containerLayout = QVBoxLayout()
-        container.setLayout(containerLayout)
-
-        self.setCentralWidget(container)
-
-
-
-
-
 app = QApplication(sys.argv)
-w = MainWindow()
+w = MainWindow(apps)
 w.show()
 sys.exit(app.exec())
