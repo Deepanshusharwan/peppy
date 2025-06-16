@@ -1,35 +1,30 @@
 from PyQt6.QtWidgets import QWidget, QLabel, QPushButton, QHBoxLayout, QVBoxLayout
+from PyQt6.QtCore import QCoreApplication
+import subprocess
+
 
 class OnOffWidget(QWidget):
 
-    def __init__(self,name):
+    def __init__(self,name,app_info):
         super().__init__()
 
         self.name = name # Name of the widget used for searching
-        self.is_on = False # current state (ON,OFF)
+        self.app_info = app_info
 
-        self.lbl = QLabel(self.name)
-        self.btn_on = QPushButton("ON")
-        self.btn_off = QPushButton("OFF")
+        self.btn = QPushButton(name) # making the button
         
         self.hbox = QHBoxLayout() # a horizontal layout to encapsulate the above
-        self.hbox.addWidget(self.lbl) # add the label to the layout
-        self.hbox.addWidget(self.btn_on)
-        self.hbox.addWidget(self.btn_off)
+        self.hbox.addWidget(self.btn)
         self.setLayout(self.hbox)
-
-        self.btn_off.clicked.connect(self.off)
-        self.btn_on.clicked.connect(self.on)
-        self.update_button_state()
+        
+        self.btn.clicked.connect(self.launch_application)
 
     
-    def off(self):
-        self.is_on = False
-        self.update_button_state()
+    def launch_application(self):
+        args = self.app_info.get("exec").split()
+        subprocess.Popen(args)
+        QCoreApplication.quit()
 
-    def on(self):
-        self.is_on = True
-        self.update_button_state()
 
     def update_button_state(self):
         """

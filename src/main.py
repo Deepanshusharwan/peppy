@@ -16,6 +16,6 @@ from ui.main_window import MainWindow, QApplication
 apps = app_lister.application_lister()
 
 app = QApplication(sys.argv)
-w = MainWindow()
+w = MainWindow(apps)
 w.show()
 sys.exit(app.exec())
