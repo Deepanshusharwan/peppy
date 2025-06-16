@@ -1,13 +1,16 @@
 package main
 
+/*
+#include <stdlib.h>
+*/
 import "C"
 import (
 	"bufio"
 	"encoding/json"
 	"fmt"
-	"os"
 	"os/exec"
 	"strings"
+	"unsafe"
 )
 
 type AppInfo struct {
@@ -29,13 +32,13 @@ type AppInfo struct {
 // }
 
 //export listApplications
-func listApplications() {
+func listApplications() *C.char {
 	cmd := exec.Command("mdfind", "kMDItemKind == 'Application'")
 	output, err := cmd.Output()
 
 	if err != nil {
 		fmt.Println("Command execution error:", err)
-		return
+		return C.CString(`[]`)
 	}
 	// fmt.Print("applications: \n", string(output))
 
@@ -55,20 +58,14 @@ func listApplications() {
 		})
 	}
 
-	file, err := os.Create("applications.json")
-	if err != nil {
-		fmt.Println("Failed to create file:", err)
-		return
-	}
-	defer file.Close()
+	jsonBytes, _ := json.Marshal(apps)
+	return C.CString(string(jsonBytes))
+}
 
-	encoder := json.NewEncoder(file)
-	encoder.SetIndent("", "  ") // pretty print
-	err = encoder.Encode(apps)
-	if err != nil {
-		fmt.Println("Failed to encode JSON:", err)
-		return
-	}
+//export FreeCString
+func FreeCString(ptr *C.char) {
+	// fmt.Printf("FreeCString called on: %p\n", ptr)
+	C.free(unsafe.Pointer(ptr))
 }
 
 func main() {}
