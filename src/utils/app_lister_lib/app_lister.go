@@ -1,3 +1,5 @@
+// go build -o app_lister.so -buildmode=c-shared app_lister.go
+
 package main
 
 /*

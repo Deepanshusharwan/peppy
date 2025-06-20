@@ -1,7 +1,7 @@
 import ctypes
 import json
 
-lib=ctypes.CDLL('./main.so')
+lib=ctypes.CDLL('./app_lister.so')
 #lib.listApplications()
 
 # set return type for testjson()
