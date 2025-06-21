@@ -5,7 +5,7 @@ import subprocess
 
 class OnOffWidget(QWidget):
 
-    def __init__(self,name,app_info):
+    def __init__(self,name:str,app_info: dict):
         super().__init__()
 
         self.name = name # Name of the widget used for searching
