@@ -1,10 +1,8 @@
-from PyQt6 import QtWidgets, uic
 from PyQt6.QtWidgets import (
-    QWidget, QLineEdit, QLabel, QPushButton, QScrollArea, QMainWindow,
-    QApplication, QHBoxLayout, QVBoxLayout, QSpacerItem, QSizePolicy, QCompleter
+    QWidget, QLineEdit, QScrollArea, QMainWindow,
+    QApplication, QVBoxLayout, QSpacerItem, QSizePolicy
     )
-from PyQt6.QtCore import QObject, Qt, pyqtSignal
-from PyQt6.QtGui import QPainter, QFont, QColor, QPen
+from PyQt6.QtCore import  Qt
 
 import sys
 
@@ -15,24 +13,32 @@ class MainWindow(QMainWindow):
     def __init__(self,applications,*args, **kwargs):
         super().__init__(*args,**kwargs)
 
-        self.apps = applications
+        self.apps = applications # list of applications in the format
+        # [  {name: xxx, icon: xxx, exec: xxx},
+        #    {name2: xxx, icon2:xxx, exec2: xxx}  ]
 
         self.controls = QWidget() # controls container widget
         self.controlsLayout = QVBoxLayout() # controls container layout
         self.controlsLayout.setSpacing(0)
         self.controlsLayout.setContentsMargins(0, 0, 0, 0)
 
-        widget_names = [app.get("name") for app in self.apps]
         self.widgets = []
 
         #iterate thee names, creating a new OnOffWidget for 
         # each one, adding it to the layoout and
         # storing a reference in the self.widgets dict
-        for name in widget_names:
-            app_info = self.apps[widget_names.index(name)]
+        first_app = None
+        count = 0
+        for count in range(len(self.apps)):
+            app_info = self.apps[count]
+            name = app_info.get('name')
+            if count == 0:
+                first_app = app_info.get(name)
+
             item = OnOffWidget(name,app_info)
             self.controlsLayout.addWidget(item)
             self.widgets.append(item)
+            count += 1
 
         end_spacer = QSpacerItem(1, 1, QSizePolicy.Policy.Minimum, QSizePolicy.Policy.Expanding)
         self.controlsLayout.addItem(end_spacer)

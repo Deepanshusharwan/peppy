@@ -10,10 +10,10 @@ DESKTOP_FILE="$HOME/.local/share/applications/$APP_NAME.desktop"
 
 # === making the binary ===
 echo "Making the binary"
-pyinstaller --onefile \
-  --name "$EXECUTABLE_NAME" \
+
+pyinstaller --onedir --clean --strip \
+  --optimize=1 \
+  --name="$EXECUTABLE_NAME" \
   --windowed \
   --icon="$ICON_FILE" \
-  --add-data ".venv/lib/python3.13/site-packages/PyQt6/Qt6/plugins/platforms:PyQt6/Qt6/plugins/platforms" \
-  src/main.py
-
+  src/main.p
