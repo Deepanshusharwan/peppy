@@ -2,8 +2,7 @@ from PyQt6.QtWidgets import (
     QWidget, QLineEdit, QScrollArea, QMainWindow,
     QApplication, QVBoxLayout, QSpacerItem, QSizePolicy
     )
-from PyQt6.QtCore import QObject, Qt, pyqtSignal
-from PyQt6.QtGui import QPainter, QFont, QColor, QPen
+from PyQt6.QtCore import  Qt
 
 import sys
 
