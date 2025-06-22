@@ -58,3 +58,17 @@ cp "$ICON_FILE" "$HOME/.local/share/icons/"
 # === Make .desktop file executable ===
 chmod +x "$DESKTOP_FILE"
 
+
+
+# === Put $HOME/.local/bin/ on path ===
+
+if ! echo "$PATH" | grep -q "$HOME/.local/bin"; then
+  shell_name=$(basename "$SHELL")        # e.g., 'bash' or 'zsh'
+  shell_rc="$HOME/.${shell_name}rc"      # e.g., ~/.bashrc or ~/.zshrc
+
+  echo "export PATH=\"\$PATH:\$HOME/.local/bin\"" >> "$shell_rc"
+  echo "Added ~/.local/bin to PATH in $shell_rc"
+else
+  echo "'$HOME/.local/bin' is already in PATH"
+fi
+
