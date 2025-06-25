@@ -1,8 +1,7 @@
 #!/usr/bin/env python3
 import sys
 from PyQt6.QtWidgets import (
-    QWidget, QLineEdit, QLabel, QPushButton, QScrollArea, QMainWindow,
-    QApplication, QHBoxLayout, QVBoxLayout, QSpacerItem, QSizePolicy
+    QApplication 
     )
 
 
