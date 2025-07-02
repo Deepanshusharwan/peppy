@@ -34,11 +34,11 @@ class MainWindow(QMainWindow):
             name = app_info.get('name')
             if count == 0:
                 first_app = app_info.get(name)
+                count += 1
 
             item = OnOffWidget(name,app_info)
             self.controlsLayout.addWidget(item)
             self.widgets.append(item)
-            count += 1
 
         end_spacer = QSpacerItem(1, 1, QSizePolicy.Policy.Minimum, QSizePolicy.Policy.Expanding)
         self.controlsLayout.addItem(end_spacer)
@@ -55,6 +55,9 @@ class MainWindow(QMainWindow):
         self.searchbar = QLineEdit()
         self.searchbar.setPlaceholderText("Search application....")
         self.searchbar.textChanged.connect(self.update_display)
+
+        self.setFixedSize(900, 400)  # or use self.resize(w, h) if you want it resizable
+
 
         # TODO make the completer suggestions for autocompletion and display them as the
         # placeholder text in searchbar and pressing tab for autocompletion
@@ -75,7 +78,6 @@ class MainWindow(QMainWindow):
         container.setLayout(containerLayout)
         self.setCentralWidget(container)
 
-        self.setGeometry(600, 100, 800, 600)
         self.setWindowTitle("Peppy")       
 
     def update_display(self,text):

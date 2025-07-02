@@ -12,7 +12,8 @@ class OnOffWidget(QWidget):
         self.app_info = app_info
 
         self.btn = QPushButton(name) # making the button
-        
+        self.btn.setFixedHeight(30)
+       
         self.hbox = QHBoxLayout() # a horizontal layout to encapsulate the above
         self.hbox.addWidget(self.btn)
         self.setLayout(self.hbox)
