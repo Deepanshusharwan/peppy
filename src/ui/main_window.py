@@ -1,12 +1,15 @@
 from PyQt6.QtWidgets import (
     QWidget, QLineEdit, QScrollArea, QMainWindow,
-    QApplication, QVBoxLayout, QSpacerItem, QSizePolicy
+    QApplication, QVBoxLayout, QSpacerItem, QSizePolicy,
     )
 from PyQt6.QtCore import  Qt
+from PyQt6.QtGui import QKeySequence, QShortcut
 
 import sys
+import shlex
+import subprocess
 
-from .widget import OnOffWidget
+from .widget import AppButton
 
 class MainWindow(QMainWindow):
 
@@ -24,19 +27,19 @@ class MainWindow(QMainWindow):
 
         self.widgets = []
 
-        #iterate thee names, creating a new OnOffWidget for 
+        #iterate the names, creating a new AppButton for 
         # each one, adding it to the layoout and
         # storing a reference in the self.widgets dict
-        first_app = None
+        self.first_app = None
         count = 0
         for count in range(len(self.apps)):
             app_info = self.apps[count]
             name = app_info.get('name')
+            item = AppButton(name,app_info)
             if count == 0:
-                first_app = app_info.get(name)
+                self.first_app = item
                 count += 1
 
-            item = OnOffWidget(name,app_info)
             self.controlsLayout.addWidget(item)
             self.widgets.append(item)
 
@@ -56,6 +59,7 @@ class MainWindow(QMainWindow):
         self.searchbar.setPlaceholderText("Search application....")
         self.searchbar.textChanged.connect(self.update_display)
 
+        self.setWindowState(Qt.WindowState.WindowNoState)
         self.setFixedSize(900, 400)  # or use self.resize(w, h) if you want it resizable
 
 
@@ -66,6 +70,16 @@ class MainWindow(QMainWindow):
         #self.completer = QCompleter(widget_names)
         #self.completer.setCaseSensitivity(Qt.CaseSensitivity.CaseInsensitive)
         
+        # shortcuts
+        # window_close_key = QKeySequence(Qt.Modifier.CTRL | Qt.Key.Key_M)
+        # self.shortcut = QShortcut(window_close_key, self)
+        # self.shortcut.activated.connect(self.change_placeholder)
+        self.window_close_shortcut = QShortcut(QKeySequence(Qt.Key.Key_Escape), self)
+        self.window_close_shortcut.activated.connect(self.close)
+
+        self.text_shortcut = QShortcut(QKeySequence(Qt.Key.Key_Return),self.searchbar) # to open the top app
+        self.text_shortcut.activated.connect(self.launch_top_result)
+
         #add the items to vboxlayout (applied to the container widget)
         # which encompasses the whole window
         container = QWidget()
@@ -82,11 +96,33 @@ class MainWindow(QMainWindow):
 
     def update_display(self,text):
 
+        self.visible_widgets = []
+
+
+
+        count = 0
+        self.first_app = None
+
         for widget in self.widgets:
             if text.lower() in widget.name.lower():
+                if count == 0:
+                    self.first_app = widget
+                    count += 1
+                    
                 widget.show()
             else:
                 widget.hide()
+
+    def launch_top_result(self):
+        if self.first_app:
+            self.first_app.launch_application()
+        else:
+            command = shlex.split(self.searchbar.text(),posix=True)
+            subprocess.Popen(command)
+
+
+#    def change_placeholder(self):
+#        self.searchbar.setPlaceholderText("changed")
 
 
 if __name__ == "__main__":

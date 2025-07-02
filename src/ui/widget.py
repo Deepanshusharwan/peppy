@@ -3,7 +3,7 @@ from PyQt6.QtCore import QCoreApplication
 import subprocess
 
 
-class OnOffWidget(QWidget):
+class AppButton(QWidget):
 
     def __init__(self,name:str,app_info: dict):
         super().__init__()
@@ -18,7 +18,7 @@ class OnOffWidget(QWidget):
         self.hbox.addWidget(self.btn)
         self.setLayout(self.hbox)
         
-        self.btn.clicked.connect(self.launch_application)
+        self.btn.pressed.connect(self.launch_application)
 
     
     def launch_application(self):
