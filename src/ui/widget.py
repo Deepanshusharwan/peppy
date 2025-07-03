@@ -1,5 +1,6 @@
-from PyQt6.QtWidgets import QWidget, QLabel, QPushButton, QHBoxLayout, QVBoxLayout
+from PyQt6.QtWidgets import QWidget, QPushButton, QHBoxLayout
 from PyQt6.QtCore import QCoreApplication
+from PyQt6.QtCore import Qt
 import subprocess
 
 
@@ -19,6 +20,13 @@ class AppButton(QWidget):
         self.setLayout(self.hbox)
         
         self.btn.pressed.connect(self.launch_application)
+
+
+    def keyPressEvent(self, event):
+        if event.key() in (Qt.Key.Key_Return, Qt.Key.Key_Enter):
+            self.launch_application()
+        else:
+            super().keyPressEvent(event)
 
     
     def launch_application(self):

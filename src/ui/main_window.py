@@ -42,6 +42,7 @@ class MainWindow(QMainWindow):
 
             self.controlsLayout.addWidget(item)
             self.widgets.append(item)
+        self.visible_widgets = self.widgets.copy()
 
         end_spacer = QSpacerItem(1, 1, QSizePolicy.Policy.Minimum, QSizePolicy.Policy.Expanding)
         self.controlsLayout.addItem(end_spacer)
@@ -57,6 +58,7 @@ class MainWindow(QMainWindow):
         # searchbar
         self.searchbar = QLineEdit()
         self.searchbar.setPlaceholderText("Search application....")
+        self.searchbar.setFocusPolicy(Qt.FocusPolicy.StrongFocus)
         self.searchbar.textChanged.connect(self.update_display)
 
         self.setWindowState(Qt.WindowState.WindowNoState)
@@ -74,12 +76,12 @@ class MainWindow(QMainWindow):
         # window_close_key = QKeySequence(Qt.Modifier.CTRL | Qt.Key.Key_M)
         # self.shortcut = QShortcut(window_close_key, self)
         # self.shortcut.activated.connect(self.change_placeholder)
-        self.window_close_shortcut = QShortcut(QKeySequence(Qt.Key.Key_Escape), self)
-        self.window_close_shortcut.activated.connect(self.close)
-
-        self.text_shortcut = QShortcut(QKeySequence(Qt.Key.Key_Return),self.searchbar) # to open the top app
-        self.text_shortcut.activated.connect(self.launch_top_result)
-
+#             self.window_close_shortcut = QShortcut(QKeySequence(Qt.Key.Key_Escape), self)
+#             self.window_close_shortcut.activated.connect(self.close)
+#     
+#             self.text_shortcut = QShortcut(QKeySequence(Qt.Key.Key_Return),self.searchbar) # to open the top app
+#             self.text_shortcut.activated.connect(self.launch_top_result)
+#     
         #add the items to vboxlayout (applied to the container widget)
         # which encompasses the whole window
         container = QWidget()
@@ -94,22 +96,24 @@ class MainWindow(QMainWindow):
 
         self.setWindowTitle("Peppy")       
 
+
+    def keyPressEvent(self, event):
+        if event.key() in (Qt.Key.Key_Return, Qt.Key.Key_Enter):
+            if self.searchbar.hasFocus():
+                self.launch_top_result()
+        elif event.key() == (Qt.Key.Key_Escape):
+            self.close()
+
+
     def update_display(self,text):
-
-        self.visible_widgets = []
-
-
-
-        count = 0
         self.first_app = None
 
         for widget in self.widgets:
             if text.lower() in widget.name.lower():
-                if count == 0:
+                if self.first_app is None:
                     self.first_app = widget
-                    count += 1
-                    
                 widget.show()
+                self.visible_widgets.append(widget)
             else:
                 widget.hide()
 
