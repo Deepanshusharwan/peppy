@@ -3,7 +3,7 @@ from PyQt6.QtWidgets import (
     QApplication, QVBoxLayout, QSpacerItem, QSizePolicy,
     )
 from PyQt6.QtCore import  Qt
-from PyQt6.QtGui import QKeySequence, QShortcut
+#from PyQt6.QtGui import QKeySequence, QShortcut
 
 import sys
 import shlex
@@ -36,6 +36,7 @@ class MainWindow(QMainWindow):
             app_info = self.apps[count]
             name = app_info.get('name')
             item = AppButton(name,app_info)
+            item.btn.setFocusPolicy(Qt.FocusPolicy.WheelFocus)
             if count == 0:
                 self.first_app = item
                 count += 1
@@ -53,6 +54,7 @@ class MainWindow(QMainWindow):
         self.scroll.setVerticalScrollBarPolicy(Qt.ScrollBarPolicy.ScrollBarAlwaysOn)
         self.scroll.setHorizontalScrollBarPolicy(Qt.ScrollBarPolicy.ScrollBarAlwaysOff)
         self.scroll.setWidgetResizable(True)
+        self.scroll.setFocusPolicy(Qt.FocusPolicy.StrongFocus)
         self.scroll.setWidget(self.controls)
 
         # searchbar
@@ -101,12 +103,38 @@ class MainWindow(QMainWindow):
         if event.key() in (Qt.Key.Key_Return, Qt.Key.Key_Enter):
             if self.searchbar.hasFocus():
                 self.launch_top_result()
+
         elif event.key() == (Qt.Key.Key_Escape):
             self.close()
+            
+        elif self.searchbar.hasFocus():
+            if event.key() == (Qt.Key.Key_Down): # changes the focus from searchbar to scrollarea to the widgets
+                self.focusNextChild()
+                self.focusNextChild()
+            elif event.key() == Qt.Key.Key_Up:
+                self.focusPreviousChild()
+                
+        elif self.scroll.hasFocus():
+            self.searchbar.setFocus()
+            
+        elif event.key() == Qt.Key.Key_Up:
+            self.focusPreviousChild()
+
+        elif event.key() == Qt.Key.Key_Shift:
+            pass
+
+        elif event.key() == Qt.Key.Key_Up:
+            if self.first_app.hasFocus():
+                self.searchbar.setFocus()
+
+        else:
+            self.searchbar.setFocus()
+            QApplication.sendEvent(self.searchbar,event)
 
 
     def update_display(self,text):
         self.first_app = None
+        self.visible_widgets = []
 
         for widget in self.widgets:
             if text.lower() in widget.name.lower():
