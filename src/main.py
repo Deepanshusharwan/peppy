@@ -1,12 +1,9 @@
 #!/usr/bin/env python3
 import sys
-from PyQt6.QtWidgets import (
-    QApplication 
-    )
 
 
-#from src.utils import app_lister
-from utils import app_lister
+#from src.utils.app_lister_lib import app_lister
+from utils.app_lister_lib import app_lister
 
 # from ui import main_window
 from ui.main_window import MainWindow, QApplication

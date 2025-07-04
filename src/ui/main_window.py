@@ -1,8 +1,8 @@
 from PyQt6.QtWidgets import (
-    QWidget, QLineEdit, QScrollArea, QMainWindow,
+    QWidget, QLineEdit,QTextEdit, QScrollArea, QMainWindow,
     QApplication, QVBoxLayout, QSpacerItem, QSizePolicy,
     )
-from PyQt6.QtCore import  Qt
+from PyQt6.QtCore import  Qt,QThread, pyqtSignal
 #from PyQt6.QtGui import QKeySequence, QShortcut
 
 import sys
@@ -10,6 +10,7 @@ import shlex
 import subprocess
 
 from .widget import AppButton
+from utils.command_worker import WorkerThread
 
 class MainWindow(QMainWindow):
 
@@ -45,6 +46,12 @@ class MainWindow(QMainWindow):
             self.widgets.append(item)
         self.visible_widgets = self.widgets.copy()
 
+        # output area for the shell output
+        self.output_area = QTextEdit()
+        self.output_area.setReadOnly(True)
+        self.controlsLayout.addWidget(self.output_area)
+        self.output_area.hide()
+
         end_spacer = QSpacerItem(1, 1, QSizePolicy.Policy.Minimum, QSizePolicy.Policy.Expanding)
         self.controlsLayout.addItem(end_spacer)
         self.controls.setLayout(self.controlsLayout)
@@ -55,6 +62,7 @@ class MainWindow(QMainWindow):
         self.scroll.setHorizontalScrollBarPolicy(Qt.ScrollBarPolicy.ScrollBarAlwaysOff)
         self.scroll.setWidgetResizable(True)
         self.scroll.setFocusPolicy(Qt.FocusPolicy.StrongFocus)
+        self.scroll.setFrameShape(QScrollArea.Shape.NoFrame)
         self.scroll.setWidget(self.controls)
 
         # searchbar
@@ -82,7 +90,7 @@ class MainWindow(QMainWindow):
 #             self.window_close_shortcut.activated.connect(self.close)
 #     
 #             self.text_shortcut = QShortcut(QKeySequence(Qt.Key.Key_Return),self.searchbar) # to open the top app
-#             self.text_shortcut.activated.connect(self.launch_top_result)
+#             self.text_shortcut.activated.connect(self.process_search_input)
 #     
         #add the items to vboxlayout (applied to the container widget)
         # which encompasses the whole window
@@ -102,7 +110,7 @@ class MainWindow(QMainWindow):
     def keyPressEvent(self, event):
         if event.key() in (Qt.Key.Key_Return, Qt.Key.Key_Enter):
             if self.searchbar.hasFocus():
-                self.launch_top_result()
+                self.process_search_input()
 
         elif event.key() == (Qt.Key.Key_Escape):
             self.close()
@@ -142,15 +150,29 @@ class MainWindow(QMainWindow):
                     self.first_app = widget
                 widget.show()
                 self.visible_widgets.append(widget)
+                self.output_area.hide()
             else:
                 widget.hide()
 
-    def launch_top_result(self):
+    def process_search_input(self):
         if self.first_app:
             self.first_app.launch_application()
-        else:
-            command = shlex.split(self.searchbar.text(),posix=True)
-            subprocess.Popen(command)
+
+        elif self.searchbar.text().strip().startswith('/'):
+            command = self.searchbar.text().strip().removeprefix('/').strip()
+            self.output_area.append(f"<span style='color:green'>$ {command}</span>")
+
+            self.output_area.show()
+            self.worker = WorkerThread(command)
+            self.worker.output_signal.connect(self.display_shell_output)
+            self.worker.error_signal.connect(self.display_shell_error)
+            self.worker.start()
+
+    def display_shell_output(self, output: str):
+        self.output_area.append(output)
+
+    def display_shell_error(self, error: str):
+        self.output_area.append(f"<span style='color:red'>{error}</span>")
 
 
 #    def change_placeholder(self):
