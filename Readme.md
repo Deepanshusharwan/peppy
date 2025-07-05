@@ -1,11 +1,13 @@
 # Peppy
 ![](peppy.svg)
 
-Peppy is a light-weight, keyboard-driven, **cross platform application launcher** desinged for **Linux** and **macOS**. 
-Inspired by
+Peppy is a light-weight, keyboard-driven, **cross platform application launcher** desinged for **Linux** and **macOS**. \
+Inspired by [Raycast](https://github.com/raycast) and [Wofi](https://github.com/SimplyCEO/wofi). \
 Built with performance and simplicity in mind, Peppy offers a fast way to open **GUI application** from a beautiful and minimal interface.
 
 ## Demo
+https://github.com/user-attachments/assets/0e81bfec-1f45-4aeb-a12e-2b61d8266e31
+
 
 
 ## Features
