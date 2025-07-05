@@ -116,26 +116,33 @@ class MainWindow(QMainWindow):
 
         elif event.key() == (Qt.Key.Key_Escape):
             self.close()
-            
+
+        # FIXIT this keyPressEvent doesn't work currently for some unknown reasons
+        elif event.key() == Qt.Key.Key_C and event.modifiers() & Qt.KeyboardModifier.ControlModifier:
+           if hasattr(self, 'worker') and self.worker:
+               self.worker.stop()
+               self.output_area.append("<span style='color:red'>[Process terminated with Ctrl+C]</span>")
+                           
         elif self.searchbar.hasFocus():
             if event.key() == (Qt.Key.Key_Down): # changes the focus from searchbar to scrollarea to the widgets
                 self.focusNextChild()
                 self.focusNextChild()
             elif event.key() == Qt.Key.Key_Up:
                 self.focusPreviousChild()
-                
+
         elif self.scroll.hasFocus():
             self.searchbar.setFocus()
+            QApplication.sendEvent(self.searchbar,event)
             
         elif event.key() == Qt.Key.Key_Up:
             self.focusPreviousChild()
 
-        elif event.key() == Qt.Key.Key_Shift:
-            pass
-
         elif event.key() == Qt.Key.Key_Up:
             if self.first_app.hasFocus():
                 self.searchbar.setFocus()
+
+        elif event.key() == Qt.Key.Key_Shift:
+            pass
 
         else:
             self.searchbar.setFocus()
