@@ -49,7 +49,9 @@ class MainWindow(QMainWindow):
         # output area for the shell output
         self.output_area = QTextEdit()
         self.output_area.setReadOnly(True)
-        self.controlsLayout.addWidget(self.output_area)
+        self.output_area.setFrameStyle(QTextEdit.Shape.NoFrame)
+        self.output_area.setVerticalScrollBarPolicy(Qt.ScrollBarPolicy.ScrollBarAsNeeded)
+        self.controlsLayout.addWidget(self.output_area,stretch=1)
         self.output_area.hide()
 
         end_spacer = QSpacerItem(1, 1, QSizePolicy.Policy.Minimum, QSizePolicy.Policy.Expanding)
@@ -58,7 +60,7 @@ class MainWindow(QMainWindow):
 
         # scroll area properties
         self.scroll = QScrollArea()
-        self.scroll.setVerticalScrollBarPolicy(Qt.ScrollBarPolicy.ScrollBarAlwaysOn)
+        self.scroll.setVerticalScrollBarPolicy(Qt.ScrollBarPolicy.ScrollBarAsNeeded)
         self.scroll.setHorizontalScrollBarPolicy(Qt.ScrollBarPolicy.ScrollBarAlwaysOff)
         self.scroll.setWidgetResizable(True)
         self.scroll.setFocusPolicy(Qt.FocusPolicy.StrongFocus)
@@ -166,6 +168,7 @@ class MainWindow(QMainWindow):
             self.worker = WorkerThread(command)
             self.worker.output_signal.connect(self.display_shell_output)
             self.worker.error_signal.connect(self.display_shell_error)
+            self.worker.finished_signal.connect(self.on_shell_finished)
             self.worker.start()
 
     def display_shell_output(self, output: str):
@@ -174,6 +177,9 @@ class MainWindow(QMainWindow):
     def display_shell_error(self, error: str):
         self.output_area.append(f"<span style='color:red'>{error}</span>")
 
+    def on_shell_finished(self):
+        self.worker = None
+        self.searchbar.setText('/ ')
 
 #    def change_placeholder(self):
 #        self.searchbar.setPlaceholderText("changed")
