@@ -17,7 +17,7 @@ import (
 
 type AppInfo struct {
 	Name    string `json:"name"`
-	Path    string `json:"path"`
+	Exec    string `json:"exec"`
 	Counter int    `json:"count"`
 }
 
@@ -49,6 +49,7 @@ func listApplications() *C.char {
 
 	for scanner.Scan() {
 		appPath := scanner.Text()
+		custom_appPath := "open " + appPath
 
 		//extract app name
 		sectors := strings.Split(appPath, "/")
@@ -56,7 +57,7 @@ func listApplications() *C.char {
 
 		apps = append(apps, AppInfo{
 			Name: appName,
-			Path: appPath,
+			Exec: custom_appPath,
 		})
 	}
 
