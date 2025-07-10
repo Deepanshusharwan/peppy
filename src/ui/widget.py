@@ -30,8 +30,23 @@ class AppButton(QWidget):
 
     
     def launch_application(self):
-        args = self.app_info.get("exec").split()
-        subprocess.Popen(args)
+        args = self.app_info.get("exec")
+        desktop_exec_field_codes = [
+    "%f",  # single file
+    "%F",  # multiple files
+    "%u",  # single URL
+    "%U",  # multiple URLs
+    "%i",  # icon placeholder (e.g., expands to --icon <icon>)
+    "%c",  # application name
+    "%k",  # path to the .desktop file itself
+]
+        for m in desktop_exec_field_codes:
+            if m in args:
+                args = args.replace(m,"")
+        print(args)
+        subprocess.Popen(args,
+                         shell=True,
+                         text=True)
         QCoreApplication.quit()
 
 
@@ -46,5 +61,6 @@ class AppButton(QWidget):
         else:
             self.btn_on.setStyleSheet("background-color: none; color: none;")
             self.btn_off.setStyleSheet("background-color: #D32F2F; color: #fff;")
+
 
 
