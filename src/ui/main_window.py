@@ -54,6 +54,12 @@ class MainWindow(QMainWindow):
         self.controlsLayout.addWidget(self.output_area,stretch=1)
         self.output_area.hide()
 
+        # small output area for various functions
+        self.display_box = QLineEdit()
+        self.display_box.setReadOnly(True)
+        self.controlsLayout.addWidget(self.display_box,stretch=1)
+        self.display_box.hide()
+
         end_spacer = QSpacerItem(1, 1, QSizePolicy.Policy.Minimum, QSizePolicy.Policy.Expanding)
         self.controlsLayout.addItem(end_spacer)
         self.controls.setLayout(self.controlsLayout)
@@ -159,6 +165,7 @@ class MainWindow(QMainWindow):
                     self.first_app = widget
                 widget.show()
                 self.visible_widgets.append(widget)
+                self.display_box.hide()
                 self.output_area.hide()
             else:
                 widget.hide()
@@ -177,6 +184,19 @@ class MainWindow(QMainWindow):
             self.worker.error_signal.connect(self.display_shell_error)
             self.worker.finished_signal.connect(self.on_shell_finished)
             self.worker.start()
+
+        elif self.searchbar.text().strip().startswith('#'):
+            colour = self.searchbar.text().strip()
+
+            if "rgb" in self.searchbar.text().lower():
+                colour = colour.removeprefix('#')
+                # TODO add a regex to check if the hex and rgb colours are valid 
+
+            self.display_box.show()
+            self.display_box.setStyleSheet('background-color: #ffffff;')
+            #self.display_box.setText(f"Invalid colour {colour}")  # TODO this text should appear when the 
+
+            self.display_box.setStyleSheet(f"background-color: {colour};")
 
     def display_shell_output(self, output: str):
         self.output_area.append(output)
@@ -197,4 +217,5 @@ if __name__ == "__main__":
     w = MainWindow()
     w.show()
     sys.exit(app.exec())
+
 
