@@ -2,12 +2,12 @@ from PyQt6.QtWidgets import (
     QWidget, QLineEdit,QTextEdit, QScrollArea, QMainWindow,
     QApplication, QVBoxLayout, QSpacerItem, QSizePolicy,
     )
-from PyQt6.QtCore import  Qt,QThread, pyqtSignal
+from PyQt6.QtCore import  Qt
+from PyQt6.QtGui import QFont, QFontDatabase
 #from PyQt6.QtGui import QKeySequence, QShortcut
 
 import sys
-import shlex
-import subprocess
+import os
 
 from .widget import AppButton
 from utils.command_worker import WorkerThread
@@ -26,6 +26,19 @@ class MainWindow(QMainWindow):
         self.controlsLayout.setSpacing(0)
         self.controlsLayout.setContentsMargins(0, 0, 0, 0)
 
+        #font 
+        font_path = os.path.abspath(os.path.join(os.path.dirname(__file__),'..','JetBrainsMonoNerdFont-Bold.ttf'))
+        font_id = QFontDatabase.addApplicationFont(font_path)
+        font_family = QFontDatabase.applicationFontFamilies(font_id)[0]
+        font = QFont(font_family, 10)
+
+        # btn stylesheet 
+        self.first_app_stylesheet = '''QPushButton{ text-align: left; padding-left: 9px; border: 2px solid #8a92c5;border-radius:5px; background-color: #1e1e2e; color: #bf9de9; outline:none;}'''
+        self.btn_stylesheet = '''QPushButton { border: none;text-align: left; padding-left: 9px }
+        QPushButton:hover { background-color: #1e1e2e; color: #bf9de9; outline:none;} 
+        QPushButton:focus { border: 2px solid #8a92c5;border-radius:7x; background-color: #1e1e2e; color: #bf9de9; outline:none;}'''
+
+        
         self.widgets = []
 
         #iterate the names, creating a new AppButton for 
@@ -45,6 +58,7 @@ class MainWindow(QMainWindow):
             self.controlsLayout.addWidget(item)
             self.widgets.append(item)
         self.visible_widgets = self.widgets.copy()
+        self.first_app.btn.setStyleSheet(self.first_app_stylesheet)
 
         # output area for the shell output
         self.output_area = QTextEdit()
@@ -52,6 +66,8 @@ class MainWindow(QMainWindow):
         self.output_area.setFrameStyle(QTextEdit.Shape.NoFrame)
         self.output_area.setVerticalScrollBarPolicy(Qt.ScrollBarPolicy.ScrollBarAsNeeded)
         self.controlsLayout.addWidget(self.output_area,stretch=1)
+        self.output_area.setStyleSheet('padding:9px')
+        self.output_area.setFont(font)
         self.output_area.hide()
 
         # small output area for various functions
@@ -71,16 +87,28 @@ class MainWindow(QMainWindow):
         self.scroll.setWidgetResizable(True)
         self.scroll.setFocusPolicy(Qt.FocusPolicy.StrongFocus)
         self.scroll.setFrameShape(QScrollArea.Shape.NoFrame)
+        self.scroll.setStyleSheet('''
+        Qs
+        ''')
         self.scroll.setWidget(self.controls)
 
         # searchbar
         self.searchbar = QLineEdit()
         self.searchbar.setPlaceholderText("Search application....")
         self.searchbar.setFocusPolicy(Qt.FocusPolicy.StrongFocus)
+        self.searchbar.setContentsMargins(10,10,10,0)
+        self.searchbar.setStyleSheet('''QLineEdit {padding-left:9px;padding-top:7px;padding-bottom:7px;outline:none;}
+        QLineEdit:focus {padding-left:9px;padding-top:7px;padding-bottom:7px;outline:none; border: none;}
+        ''')
+        font2 = QFont(font_family,12)
+        self.searchbar.setFont(font2)
         self.searchbar.textChanged.connect(self.update_display)
 
         self.setWindowState(Qt.WindowState.WindowNoState)
         self.setFixedSize(900, 400)  # or use self.resize(w, h) if you want it resizable
+        self.setStyleSheet("background-color: #1e1e2e; color: #a5aad1")
+
+
 
 
         # TODO make the completer suggestions for autocompletion and display them as the
@@ -133,6 +161,7 @@ class MainWindow(QMainWindow):
             if event.key() == (Qt.Key.Key_Down): # changes the focus from searchbar to scrollarea to the widgets
                 self.focusNextChild()
                 self.focusNextChild()
+                self.first_app.btn.setStyleSheet(self.btn_stylesheet)
             elif event.key() == Qt.Key.Key_Up:
                 self.focusPreviousChild()
 
@@ -156,6 +185,8 @@ class MainWindow(QMainWindow):
 
 
     def update_display(self,text):
+        if self.first_app:
+            self.first_app.btn.setStyleSheet(self.btn_stylesheet)
         self.first_app = None
         self.visible_widgets = []
 
@@ -163,6 +194,7 @@ class MainWindow(QMainWindow):
             if text.lower() in widget.name.lower():
                 if self.first_app is None:
                     self.first_app = widget
+                    self.first_app.btn.setStyleSheet(self.first_app_stylesheet)
                 widget.show()
                 self.visible_widgets.append(widget)
                 self.display_box.hide()
@@ -174,7 +206,7 @@ class MainWindow(QMainWindow):
         if self.first_app:
             self.first_app.launch_application()
 
-        elif self.searchbar.text().strip().startswith('/'):
+        elif self.searchbar.text().strip().startswith('/'): # for commands
             command = self.searchbar.text().strip().removeprefix('/').strip()
             self.output_area.append(f"<span style='color:green'>$ {command}</span>")
 
@@ -185,12 +217,17 @@ class MainWindow(QMainWindow):
             self.worker.finished_signal.connect(self.on_shell_finished)
             self.worker.start()
 
-        elif self.searchbar.text().strip().startswith('#'):
+        elif self.searchbar.text().strip().startswith('#'): # for colour codes
             colour = self.searchbar.text().strip()
 
             if "rgb" in self.searchbar.text().lower():
                 colour = colour.removeprefix('#')
                 # TODO add a regex to check if the hex and rgb colours are valid 
+            else:
+                colour_split = colour.split()
+                colour = ''
+                for m in colour_split:
+                    colour +=m
 
             self.display_box.show()
             self.display_box.setStyleSheet('background-color: #ffffff;')

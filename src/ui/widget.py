@@ -1,7 +1,9 @@
 from PyQt6.QtWidgets import QWidget, QPushButton, QHBoxLayout
+from PyQt6.QtGui import QIcon, QFont, QFontDatabase
 from PyQt6.QtCore import QCoreApplication
 from PyQt6.QtCore import Qt
 import subprocess
+import os
 
 
 class AppButton(QWidget):
@@ -12,9 +14,20 @@ class AppButton(QWidget):
         self.name = name # Name of the widget used for searching
         self.app_info = app_info
 
-        self.btn = QPushButton(name) # making the button
-        self.btn.setFixedHeight(30)
-       
+        self.btn = QPushButton(text = name)
+        # self.btn = QPushButton(text = name, icon=QIcon(app_info.get('icon')))
+        self.btn.setFixedHeight(35)
+        
+        font_path = os.path.abspath(os.path.join(os.path.dirname(__file__),'..','JetBrainsMonoNerdFont-Bold.ttf'))
+        font_id = QFontDatabase.addApplicationFont(font_path)
+        font_family = QFontDatabase.applicationFontFamilies(font_id)[0]
+        font = QFont(font_family, 11)
+        self.btn.setFont(font)
+# QPushButton{ text-align: left; padding-left: 9px; border: 2px solid #8a92c5;border-radius:5px; background-color: #1e1e2e; color: #bf9de9; outline:none;}'
+        self.btn.setStyleSheet('''QPushButton { border: none;text-align: left; padding-left: 9px }
+        QPushButton:hover { background-color: #1e1e2e; color: #bf9de9; outline:none;} 
+        QPushButton:focus { border: 2px solid #8a92c5;border-radius:7x; background-color: #1e1e2e; color: #bf9de9; outline:none;}'''
+        ) 
         self.hbox = QHBoxLayout() # a horizontal layout to encapsulate the above
         self.hbox.addWidget(self.btn)
         self.setLayout(self.hbox)
