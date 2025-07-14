@@ -55,7 +55,7 @@ class MainWindow(QMainWindow):
             self.controlsLayout.addWidget(item)
             self.widgets.append(item)
         self.visible_widgets = self.widgets.copy()
-        self.first_app.btn.setStyleSheet(self.first_app_stylesheet)
+        self.first_app.setStyleSheet(self.first_app_stylesheet)
 
         # output area for the shell output
         self.command_display= QTextEdit()
@@ -155,7 +155,7 @@ class MainWindow(QMainWindow):
             if event.key() == (Qt.Key.Key_Down): # changes the focus from searchbar to scrollarea to the widgets
                 self.focusNextChild()
                 self.focusNextChild()
-                self.first_app.btn.setStyleSheet(self.btn_stylesheet)
+                self.first_app.setStyleSheet(self.btn_stylesheet)
             elif event.key() == Qt.Key.Key_Up:
                 self.focusPreviousChild()
 
@@ -180,7 +180,7 @@ class MainWindow(QMainWindow):
 
     def update_display(self,text):
         if self.first_app:
-            self.first_app.btn.setStyleSheet(self.btn_stylesheet)
+            self.first_app.setStyleSheet(self.btn_stylesheet)
         self.first_app = None
         self.visible_widgets = []
 
@@ -188,7 +188,7 @@ class MainWindow(QMainWindow):
             if text.lower() in widget.name.lower():
                 if self.first_app is None:
                     self.first_app = widget
-                    self.first_app.btn.setStyleSheet(self.first_app_stylesheet)
+                    self.first_app.setStyleSheet(self.first_app_stylesheet)
                 widget.show()
                 self.visible_widgets.append(widget)
                 self.colour_preview_widget.hide()
