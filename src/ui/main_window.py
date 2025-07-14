@@ -283,7 +283,7 @@ class MainWindow(QMainWindow):
 
                     'colour_preview_widget': 'border: none',
 
-                    ' scroll_area': 'TODO',
+                    'scroll_area': 'TODO',
 
                     'height': '400',
 
