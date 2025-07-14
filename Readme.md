@@ -190,3 +190,7 @@ Pull requests are welcome! Feel free to fork this repo, open issues, and suggest
 ## 📬 Author
 **Deepanshu Sharwan** \
 [Github](https://github.com/deepanshusharwan) | email: deepanshusharwan35@gmail.com
+
+
+## 🫂 Contributors
+[Gaurav Vashisht](https://github.com/r2adio)
