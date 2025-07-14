@@ -19,7 +19,7 @@ type AppInfo struct {
 	Name string `json:"name"`
 	Exec string `json:"exec"`
 	// Count int    `json:"count"`
-	Icns string `json:"icns"`
+	Icns string `json:"icon"`
 }
 
 var appDirs = []string{
@@ -127,12 +127,12 @@ func listApplications() *C.char {
 				}
 
 				appMap[appName] = true
-				exenPath := "open '" + path + "'"
-				iconPath := getAppIcon(path)
+				execPath := "open '" + path + "'"
+				iconPath := "'" + getAppIcon(path) + "'"
 
 				apps = append(apps, AppInfo{
 					Name: appName,
-					Exec: exenPath,
+					Exec: execPath,
 					Icns: iconPath,
 				})
 				return filepath.SkipDir //don't go deeper into .app bundle
