@@ -1,5 +1,5 @@
 # Peppy
-![](peppy.svg)
+![](assets/peppy_logo_with_background.svg)
 
 Peppy is a light-weight, keyboard-driven, **cross platform application launcher** desinged for **Linux** and **macOS**. \
 Inspired by [Raycast](https://github.com/raycast) and [Wofi](https://github.com/SimplyCEO/wofi). \
@@ -16,6 +16,8 @@ https://github.com/user-attachments/assets/0e81bfec-1f45-4aeb-a12e-2b61d8266e31
 - 🚀 **Launch top result instantly** with `Enter`
 - 📜 **Run shell commands/scripts** by prefixing input with `/`
   - e.g., `/neofetch`, `/./myscript.sh`, `/python3 myscript.py`
+- 🖌 **Check colour** of the hex and rgb codes by  prefixing input with '#'
+  - e.g., `#ffff00`, `# rgb(23,24,23)`
 - 🧠 **Intelligent command handling** with subprocess
 - 🧩 **Custom Script/external command integration** 
 - 🖱️ **Smart focus management** for seamless typing

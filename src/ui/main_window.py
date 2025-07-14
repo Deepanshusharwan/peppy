@@ -6,6 +6,7 @@ from PyQt6.QtCore import  Qt
 from PyQt6.QtGui import QFont, QFontDatabase
 #from PyQt6.QtGui import QKeySequence, QShortcut
 
+import configparser
 import sys
 import os
 
@@ -25,18 +26,13 @@ class MainWindow(QMainWindow):
         self.controlsLayout = QVBoxLayout() # controls container layout
         self.controlsLayout.setSpacing(0)
         self.controlsLayout.setContentsMargins(0, 0, 0, 0)
+        self.config_manager()
 
         #font 
         font_path = os.path.abspath(os.path.join(os.path.dirname(__file__),'..','JetBrainsMonoNerdFont-Bold.ttf'))
         font_id = QFontDatabase.addApplicationFont(font_path)
         font_family = QFontDatabase.applicationFontFamilies(font_id)[0]
         font = QFont(font_family, 10)
-
-        # btn stylesheet 
-        self.first_app_stylesheet = '''QPushButton{ text-align: left; padding-left: 9px; border: 2px solid #8a92c5;border-radius:5px; background-color: #1e1e2e; color: #bf9de9; outline:none;}'''
-        self.btn_stylesheet = '''QPushButton { border: none;text-align: left; padding-left: 9px }
-        QPushButton:hover { background-color: #1e1e2e; color: #bf9de9; outline:none;} 
-        QPushButton:focus { border: 2px solid #8a92c5;border-radius:7x; background-color: #1e1e2e; color: #bf9de9; outline:none;}'''
 
         
         self.widgets = []
@@ -51,6 +47,7 @@ class MainWindow(QMainWindow):
             name = app_info.get('name')
             item = AppButton(name,app_info)
             item.btn.setFocusPolicy(Qt.FocusPolicy.WheelFocus)
+            item.setStyleSheet(self.btn_stylesheet)
             if count == 0:
                 self.first_app = item
                 count += 1
@@ -61,20 +58,20 @@ class MainWindow(QMainWindow):
         self.first_app.btn.setStyleSheet(self.first_app_stylesheet)
 
         # output area for the shell output
-        self.output_area = QTextEdit()
-        self.output_area.setReadOnly(True)
-        self.output_area.setFrameStyle(QTextEdit.Shape.NoFrame)
-        self.output_area.setVerticalScrollBarPolicy(Qt.ScrollBarPolicy.ScrollBarAsNeeded)
-        self.controlsLayout.addWidget(self.output_area,stretch=1)
-        self.output_area.setStyleSheet('padding:9px')
-        self.output_area.setFont(font)
-        self.output_area.hide()
+        self.command_display= QTextEdit()
+        self.command_display.setReadOnly(True)
+        self.command_display.setFrameStyle(QTextEdit.Shape.NoFrame)
+        self.command_display.setVerticalScrollBarPolicy(Qt.ScrollBarPolicy.ScrollBarAsNeeded)
+        self.controlsLayout.addWidget(self.command_display,stretch=1)
+        self.command_display.setStyleSheet(self.command_display_stylesheet)
+        self.command_display.setFont(font)
+        self.command_display.hide()
 
         # small output area for various functions
-        self.display_box = QLineEdit()
-        self.display_box.setReadOnly(True)
-        self.controlsLayout.addWidget(self.display_box,stretch=1)
-        self.display_box.hide()
+        self.colour_preview_widget = QLineEdit()
+        self.colour_preview_widget.setReadOnly(True)
+        self.controlsLayout.addWidget(self.colour_preview_widget,stretch=1)
+        self.colour_preview_widget.hide()
 
         end_spacer = QSpacerItem(1, 1, QSizePolicy.Policy.Minimum, QSizePolicy.Policy.Expanding)
         self.controlsLayout.addItem(end_spacer)
@@ -87,9 +84,6 @@ class MainWindow(QMainWindow):
         self.scroll.setWidgetResizable(True)
         self.scroll.setFocusPolicy(Qt.FocusPolicy.StrongFocus)
         self.scroll.setFrameShape(QScrollArea.Shape.NoFrame)
-        self.scroll.setStyleSheet('''
-        Qs
-        ''')
         self.scroll.setWidget(self.controls)
 
         # searchbar
@@ -105,7 +99,7 @@ class MainWindow(QMainWindow):
         self.searchbar.textChanged.connect(self.update_display)
 
         self.setWindowState(Qt.WindowState.WindowNoState)
-        self.setFixedSize(900, 400)  # or use self.resize(w, h) if you want it resizable
+        self.setFixedSize(self.app_width, self.app_height)  # or use self.resize(w, h) if you want it resizable
         self.setStyleSheet("background-color: #1e1e2e; color: #a5aad1")
 
 
@@ -152,10 +146,10 @@ class MainWindow(QMainWindow):
             self.close()
 
         # FIXIT this keyPressEvent doesn't work currently for some unknown reasons
-        elif event.key() == Qt.Key.Key_C and event.modifiers() & Qt.KeyboardModifier.ControlModifier:
-           if hasattr(self, 'worker') and self.worker:
-               self.worker.stop()
-               self.output_area.append("<span style='color:red'>[Process terminated with Ctrl+C]</span>")
+        #elif event.key() == Qt.Key.Key_C and event.modifiers() & Qt.KeyboardModifier.ControlModifier:
+        #   if hasattr(self, 'worker') and self.worker:
+        #       self.worker.stop()
+        #       self.command_display.append("<span style='color:red'>[Process terminated with Ctrl+C]</span>")
                            
         elif self.searchbar.hasFocus():
             if event.key() == (Qt.Key.Key_Down): # changes the focus from searchbar to scrollarea to the widgets
@@ -197,8 +191,8 @@ class MainWindow(QMainWindow):
                     self.first_app.btn.setStyleSheet(self.first_app_stylesheet)
                 widget.show()
                 self.visible_widgets.append(widget)
-                self.display_box.hide()
-                self.output_area.hide()
+                self.colour_preview_widget.hide()
+                self.command_display.hide()
             else:
                 widget.hide()
 
@@ -208,9 +202,9 @@ class MainWindow(QMainWindow):
 
         elif self.searchbar.text().strip().startswith('/'): # for commands
             command = self.searchbar.text().strip().removeprefix('/').strip()
-            self.output_area.append(f"<span style='color:green'>$ {command}</span>")
+            self.command_display.append(f"<span style='color:green'>$ {command}</span>")
 
-            self.output_area.show()
+            self.command_display.show()
             self.worker = WorkerThread(command)
             self.worker.output_signal.connect(self.display_shell_output)
             self.worker.error_signal.connect(self.display_shell_error)
@@ -229,17 +223,16 @@ class MainWindow(QMainWindow):
                 for m in colour_split:
                     colour +=m
 
-            self.display_box.show()
-            self.display_box.setStyleSheet('background-color: #ffffff;')
+            self.colour_preview_widget.show()
             #self.display_box.setText(f"Invalid colour {colour}")  # TODO this text should appear when the 
 
-            self.display_box.setStyleSheet(f"background-color: {colour};")
+            self.colour_preview_widget.setStyleSheet(f"background-color: {colour};")
 
     def display_shell_output(self, output: str):
-        self.output_area.append(output)
+        self.command_display.append(output)
 
     def display_shell_error(self, error: str):
-        self.output_area.append(f"<span style='color:red'>{error}</span>")
+        self.command_display.append(f"<span style='color:red'>{error}</span>")
 
     def on_shell_finished(self):
         self.worker = None
@@ -247,6 +240,61 @@ class MainWindow(QMainWindow):
 
 #    def change_placeholder(self):
 #        self.searchbar.setPlaceholderText("changed")
+
+    def config_manager(self):
+        CONFIG_PATH = f"{os.environ.get('HOME','~')}/.config/peppy/peppy.conf"
+
+        while True:
+
+            if os.path.isfile(CONFIG_PATH):
+                config = configparser.ConfigParser(interpolation=None)
+                config.read(CONFIG_PATH)
+
+                self.searchbar_stylesheet = config["APPEARANCE"].get('searchbar')
+                self.main_window_stylesheet = config["APPEARANCE"].get('main_window')
+                self.first_app_stylesheet = config["APPEARANCE"].get('top_app_result')
+                self.btn_stylesheet = config["APPEARANCE"].get("app_button")
+                self.command_display_stylesheet = config["APPEARANCE"].get('command_display')
+                self.colour_preview_widget_stylesheet = config["APPEARANCE"].get('colour_preview_widget') 
+                self.scroll_stylesheet = config["APPEARANCE"].get('scroll_area')
+                self.app_width = int(config["APPEARANCE"].get('width',900))
+                self.app_height = int(config['APPEARANCE'].get('height',400))
+                break
+
+            else:
+                os.makedirs(CONFIG_PATH.removesuffix('peppy.conf'),exist_ok=True)
+                config = configparser.ConfigParser(interpolation=None)
+
+                config['APPEARANCE'] = {
+
+                    'main_window':"background-color: #1e1e2e; color: #a5aad1", 
+
+                    'searchbar': '''QLineEdit {padding-left:9px;padding-top:7px;padding-bottom:7px;outline:none;}
+            QLineEdit:focus {padding-left:9px;padding-top:7px;padding-bottom:7px;outline:none; border: none;}
+            ''',
+                    
+                    'top_app_result': '''QPushButton{ text-align: left; padding-left: 9px; border: 2px solid #8a92c5;border-radius:5px; background-color: #1e1e2e; color: #bf9de9; outline:none;}''', 
+
+                    'app_button': '''QPushButton { border: none;text-align: left; padding-left: 9px }
+        QPushButton:hover { background-color: #1e1e2e; color: #bf9de9; outline:none;} 
+        QPushButton:focus { border: 2px solid #8a92c5;border-radius:5px; background-color: #1e1e2e; color: #bf9de9; outline:none;}''',
+                    
+                    'command_display': 'padding:9px',
+
+                    'colour_preview_widget': 'border: none',
+
+                    ' scroll_area': 'TODO',
+
+                    'height': '400',
+
+                    'width': '900',
+
+                }
+
+
+                with open(CONFIG_PATH,'w') as configfile:
+                    config.write(configfile)
+                
 
 
 if __name__ == "__main__":
