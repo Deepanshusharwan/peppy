@@ -99,6 +99,7 @@ class MainWindow(QMainWindow):
         self.searchbar.textChanged.connect(self.update_display)
 
         self.setWindowState(Qt.WindowState.WindowNoState)
+        self.setWindowFlag(Qt.WindowType.FramelessWindowHint)
         self.setFixedSize(self.app_width, self.app_height)  # or use self.resize(w, h) if you want it resizable
         self.setStyleSheet("background-color: #1e1e2e; color: #a5aad1")
 

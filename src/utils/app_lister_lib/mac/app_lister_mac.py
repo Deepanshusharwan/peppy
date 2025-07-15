@@ -1,7 +1,8 @@
 import ctypes
 import json
+import os
 
-lib = ctypes.CDLL("./app_lister.so")
+lib = ctypes.CDLL(os.path.abspath(os.path.join(os.path.dirname(__file__),'app_lister.so')))
 # lib.listApplications()
 
 # set return type for testjson()
@@ -32,5 +33,4 @@ json_str = ctypes.string_at(ptr).decode("utf-8")
 # free memory that was allocated in go, using C.CString() for the string
 lib.FreeCString(ptr)
 
-app = json.loads(json_str)
-print(app)
+mac_apps = json.loads(json_str)
