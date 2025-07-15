@@ -156,6 +156,7 @@ class MainWindow(QMainWindow):
             if event.key() == (Qt.Key.Key_Down): # changes the focus from searchbar to scrollarea to the widgets
                 self.focusNextChild()
                 self.focusNextChild()
+                self.focusNextChild()
                 self.first_app.setStyleSheet(self.btn_stylesheet)
             elif event.key() == Qt.Key.Key_Up:
                 self.focusPreviousChild()

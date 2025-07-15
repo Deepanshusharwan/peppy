@@ -13,7 +13,11 @@ def application_lister():
         home_path = os.environ.get("HOME")
         dir_paths = [
             "/usr/share/applications/",
-            f"{home_path}/.local/share/applications",
+            f"{home_path}/.local/share/applications/",
+            "/var/lib/flatpak/exports/share/applications/",
+            f"{home_path}/.local/share/flatpak/exports/share/applications"
+            
+            
         ]
         try:
             for dir in dir_paths:
