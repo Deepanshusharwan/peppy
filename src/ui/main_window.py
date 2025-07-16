@@ -1,5 +1,5 @@
 from PyQt6.QtWidgets import (
-    QWidget, QLineEdit,QTextEdit, QScrollArea, QMainWindow,
+    QWidget, QLineEdit,QTextEdit, QLabel, QScrollArea, QMainWindow,
     QApplication, QVBoxLayout, QSpacerItem, QSizePolicy,
     )
 from PyQt6.QtCore import  Qt
@@ -68,9 +68,8 @@ class MainWindow(QMainWindow):
         self.command_display.hide()
 
         # small output area for various functions
-        self.colour_preview_widget = QLineEdit()
-        self.colour_preview_widget.setReadOnly(True)
-        self.controlsLayout.addWidget(self.colour_preview_widget,stretch=1)
+        self.colour_preview_widget = QLabel()
+        self.controlsLayout.addWidget(self.colour_preview_widget)
         self.colour_preview_widget.hide()
 
         end_spacer = QSpacerItem(1, 1, QSizePolicy.Policy.Minimum, QSizePolicy.Policy.Expanding)
@@ -220,17 +219,61 @@ class MainWindow(QMainWindow):
 
             if "rgb" in self.searchbar.text().lower():
                 colour = colour.removeprefix('#')
+                colour_format = 'RGB'
                 # TODO add a regex to check if the hex and rgb colours are valid 
             else:
+                colour_format = 'HEX'
                 colour_split = colour.split()
                 colour = ''
                 for m in colour_split:
                     colour +=m
 
             self.colour_preview_widget.show()
-            #self.display_box.setText(f"Invalid colour {colour}")  # TODO this text should appear when the 
 
-            self.colour_preview_widget.setStyleSheet(f"background-color: {colour};")
+            self.colour_preview_widget.setText(f'''
+  <table width="100%" cellspacing="0" cellpadding="0" style="
+    background-color: #2b2b2b;
+    border-radius: 8px;
+    padding: 12px;
+    border-spacing: 0px;
+    margin: 0;
+  ">
+    <tr>
+      <td style="
+        padding: 12px;
+        color: white;
+        font-size: 20px;
+        font-family: system-ui;
+        vertical-align: top;
+      ">
+                                               {colour}<br>
+        <span style="font-size: 12px; color: #aaa;">{colour_format}</span>
+      </td>
+
+      <td style="
+        padding: 12px;
+        width: 30px;
+        text-align: center;
+        color: #aaa;
+        font-size: 20px;
+        vertical-align: middle;
+      ">→</td>
+
+      <td style="
+        padding: 12px;
+        width: 60px;
+        height: 60px;
+        background-color: {colour};
+        border: 3px solid #444;
+        border-radius: 50%;
+      ">
+        &nbsp;
+      </td>
+    </tr>
+  </table>
+
+''')
+
 
     def display_shell_output(self, output: str):
         self.command_display.append(output)
@@ -286,8 +329,6 @@ class MainWindow(QMainWindow):
                     'transparency': '0',
 
                     'command_display': 'padding:9px',
-
-                    'colour_preview_widget': 'border: none',
 
 
                     'scroll_area': '''
