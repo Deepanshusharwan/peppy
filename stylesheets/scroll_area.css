@@ -1,0 +1,63 @@
+/* Vertical Scrollbar */
+QScrollBar:vertical {
+  border: none;
+  width: 14px;
+  margin: 15px 0 15px 0;
+  border-radius: 7px;
+}
+
+/* Handle bar vertical */
+QScrollBar::handle:vertical {
+  background-color: rgb(80, 80, 122);
+  min-height: 30px;
+  border-radius: 7px;
+}
+QScrollBar::handle:vertical:hover {
+  background-color: rgb(255, 0, 127);
+}
+QScrollBar::handle:vertical:pressed {
+  background-color: rgb(185, 0, 92);
+}
+
+/* BTN Top scrollbar */
+QScrollBar::sub-line:vertical {
+  border: none;
+  background-color: #1e1e2e;
+  height: 15px;
+  border-top-left-radius: 7px;
+  border-top-right-radius: 7px;
+  subcontrol-position: top;
+  subcontrol-origin: margin;
+}
+QScrollBar::sub-line:vertical:hover {
+  background-color: rgb(255, 0, 127);
+}
+QScrollBar::sub-line:vertical:pressed {
+  background-color: rgb(185, 0, 92);
+}
+
+/* BTN Bottom scrollbar */
+QScrollBar::add-line:vertical {
+  border: none;
+  background-color: #1e1e2e;
+  height: 15px;
+  border-bottom-left-radius: 7px;
+  border-bottom-right-radius: 7px;
+  subcontrol-position: bottom;
+  subcontrol-origin: margin;
+}
+QScrollBar::add-line:vertical:hover {
+  background-color: rgb(255, 0, 127);
+}
+QScrollBar::add-line:vertical:pressed {
+  background-color: rgb(185, 0, 92);
+}
+/* reset arrow */
+QScrollBar::up-arrow:vertical,
+QScrollBar::down-arrow:vertical {
+  background: none;
+}
+QScrollBar::add-page:vertical,
+QScrollBar::sub-page:vertical {
+  background: none;
+}

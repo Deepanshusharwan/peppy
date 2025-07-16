@@ -13,7 +13,9 @@ def application_lister():
         home_path = os.environ.get("HOME")
         dir_paths = [
             "/usr/share/applications/",
-            f"{home_path}/.local/share/applications",
+            f"{home_path}/.local/share/applications/",
+            "/var/lib/flatpak/exports/share/applications/",
+            f"{home_path}/.local/share/flatpak/exports/share/applications"
         ]
         try:
             for dir in dir_paths:
@@ -35,7 +37,13 @@ def application_lister():
         except Exception as e:
             print(f"failed to read {file}: {e}")
 
-    app.sort(key= lambda x : x.get("name"))
+    elif operating_system == "Darwin":
+        from .mac import app_lister_mac
+        app = app_lister_mac.mac_apps
+        
+
+
+    app.sort(key= lambda x : x.get("name").lower())
     return app
 
 def is_gui_app(entry):  # to filter out all the terminal executables from the gui applications

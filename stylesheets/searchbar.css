@@ -1,0 +1,14 @@
+QLineEdit {
+  padding-left: 9px;
+  padding-top: 7px;
+  padding-bottom: 7px;
+  outline: none;
+  border: none;
+}
+QLineEdit:focus {
+  padding-left: 9px;
+  padding-top: 7px;
+  padding-bottom: 7px;
+  outline: none;
+  border: none;
+}

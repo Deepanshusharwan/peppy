@@ -1,12 +1,12 @@
 # Peppy
-![](peppy.svg)
+![](assets/peppy_logo_with_background.svg)
 
 Peppy is a light-weight, keyboard-driven, **cross platform application launcher** desinged for **Linux** and **macOS**. \
 Inspired by [Raycast](https://github.com/raycast) and [Wofi](https://github.com/SimplyCEO/wofi). \
 Built with performance and simplicity in mind, Peppy offers a fast way to open **GUI application** from a beautiful and minimal interface.
 
 ## Demo
-https://github.com/user-attachments/assets/0e81bfec-1f45-4aeb-a12e-2b61d8266e31
+https://github.com/user-attachments/assets/588bcf6a-d648-4b8e-a3cc-66e80afe3256
 
 
 
@@ -16,6 +16,8 @@ https://github.com/user-attachments/assets/0e81bfec-1f45-4aeb-a12e-2b61d8266e31
 - 🚀 **Launch top result instantly** with `Enter`
 - 📜 **Run shell commands/scripts** by prefixing input with `/`
   - e.g., `/neofetch`, `/./myscript.sh`, `/python3 myscript.py`
+- 🖌 **Check colour** of the hex and rgb codes by  prefixing input with '#'
+  - e.g., `#ffff00`, `# rgb(23,24,23)`
 - 🧠 **Intelligent command handling** with subprocess
 - 🧩 **Custom Script/external command integration** 
 - 🖱️ **Smart focus management** for seamless typing
@@ -122,6 +124,15 @@ python src/main.py
 * Every command you type will be stored in the textbox
 ![](./assets/screenshot5.png)
 
+#### Use the colour converter:
+* Put a '#' before entering the hex or the rgb value and press enter to check it out
+![](./assets/screenshot6.png)
+* The result will be displayed in the 
+![](./assets/screenshot7.png)
+* similarly to check the rgb colour put the value inside the parenthesis like this "rgb(23,232,23)"
+![](./assets/screenshot8.png)
+* If an invalid value is entered then the dialogue box will show the colour of the background
+![](./assets/screenshot9.png)
 
 
 
@@ -132,46 +143,67 @@ python src/main.py
 ├─ .gitignore
 ├─ .idea
 ├─ .python-version
-├─ .ropeproject
 ├─ .venv
 ├─ LICENSE
 ├─ PKGBUILD
 ├─ Pipfile
 ├─ Pipfile.lock
-├─ README.md
-├─ build.sh               # build and installation script for peppy
-├─ extra_functs           # scripts with extra functionality for peppy
+├─ Readme.md
+├─ assets                                 # assets files for readme
+│   ├─ peppy.icnsV
+│   ├─ peppy_logo_with_background.svg
+│   ├─ peppy_demo.mp4
+│   ├─ screenshot1.png
+│   ├─ screenshot2.png
+│   ├─ screenshot3.png
+│   ├─ screenshot4.png
+│   ├─ screenshot5.png
+│   ├─ screenshot6.png
+│   ├─ screenshot7.png
+│   ├─ screenshot8.png
+│   └─ screenshot9.png
+├─ build.sh                                # bulid script for building and installing peppy
+├─ extra_functs                            # extra functions for peppy
 │   └─ search
-├─ linux_build.sh         # build script for linux
-├─ mac_build.sh           # build script for mac
-├─ peppy.md
-├─ peppy.svg              # peppy  icon image              
-├─ pyinstaller_file_remover.sh      # remove pyinstaller files
+├─ img.png
+├─ linux_build.sh
+├─ mac_build.sh
+├─ peppy.spec
+├─ peppy.svg
+├─ pyinstaller_file_remover.sh
 ├─ pyproject.toml
-├─ refrence_ui            # reference ui files for peppy
-│   ├─ main_window.ui
-│   ├─ test_ui.py
-│   └─ ui.py
-├─ src                    
-│   ├─ main.py            # main source file for peppy run it to run the program
-│   ├─ ui                 # contains the ui classes
+├─ src
+│   ├─ JetBrainsMonoNerdFont-Bold.ttf
+│   ├─ main.py
+│   ├─ peppy.egg-info
+│   │   ├─ PKG-INFO
+│   │   ├─ SOURCES.txt
+│   │   ├─ dependency_links.txt
+│   │   ├─ requires.txt
+│   │   └─ top_level.txt
+│   ├─ ui
 │   │   ├─ main_window.py
 │   │   └─ widget.py
-│   └─ utils               # mostly backend functions and utilities
-│       ├─ app_lister_lib  
-│       │   ├─ __pycache__
-│       │   │   └─ app_lister.cpython-313.pyc
+│   └─ utils
+│       ├─ app_lister_lib
 │       │   ├─ app_lister.py
 │       │   └─ mac
 │       │       ├─ app_lister.go
 │       │       ├─ app_lister.h
 │       │       ├─ app_lister.so
-│       │       ├─ go.mod
-│       │       └─ test.py
-│       └─ command_worker.py  # background process handler for external commands and scripts
+│       │       ├─ app_lister_mac.py
+│       │       └─ go.mod
+│       └─ command_worker.py
+├─ stylesheets
+│   ├─ app_button.css
+│   ├─ main_container.css
+│   ├─ main_window.css
+│   ├─ scroll_area.css
+│   ├─ searchbar.css
+│   └─ top_app_result.css
 └─ uv.lock
-Total directories: 13
-Total files: 45
+Total directories: 12
+Total files: 58
 ```
 
 

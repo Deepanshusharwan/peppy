@@ -23,6 +23,7 @@ pyinstaller --onedir --clean --strip \
   --name="$EXECUTABLE_NAME" \
   --windowed \
   --icon="$ICON_FILE" \
+  --add-data "src/JetBrainsMonoNerdFont-Bold.ttf:." \
   src/main.py
 
 # === binary installation ===

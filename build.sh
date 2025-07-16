@@ -22,7 +22,10 @@ pip install pyinstaller
 
 # === building the exec ===
 if [[ $OSTYPE == "linux-gnu"* ]]; then
-  ./linux_build.sh
+  bash ./linux_build.sh
+
+elif [[ $OSTYPE == "darwin"* ]]; then
+  bash ./mac_build.sh
 
 else
   echo "Looks like your system isn't yet supported by peppy."
