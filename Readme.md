@@ -135,6 +135,14 @@ python src/main.py
 ![](./assets/screenshot9.png)
 
 
+## Customization
+* You can customize peppy by putting css inside the peppy.conf to customize it to your needs.
+* if you accidentally delete it don't worry just run peppy and it will automatically recreate the configuration file.
+* peppy.conf is the file that contains the stylesheets of the application
+* **LOCATION**: /home/$USER/.config/peppy/peppy.conf
+* write the css for the desired key infront of it and follow ini config files standards
+* if the stylesheet of the widget or container is long and more then one line be sure to indent the lines so that the config parser knows it is part of the key from the last line and not a new value.
+
 
 ## File Tree structure
 ```
