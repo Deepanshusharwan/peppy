@@ -58,17 +58,3 @@ class AppButton(QWidget):
         QCoreApplication.quit()
 
 
-    def update_button_state(self):
-        """
-        update the appearance of the control buttons (On/Off)
-        """
-        if self.is_on:
-            self.btn_on.setStyleSheet("background-color:  #4CAF50; color: #fff;")
-            self.btn_off.setStyleSheet("background-color: none; color: none;")
-
-        else:
-            self.btn_on.setStyleSheet("background-color: none; color: none;")
-            self.btn_off.setStyleSheet("background-color: #D32F2F; color: #fff;")
-
-
-

@@ -85,15 +85,14 @@ class MainWindow(QMainWindow):
         self.scroll.setFocusPolicy(Qt.FocusPolicy.StrongFocus)
         self.scroll.setFrameShape(QScrollArea.Shape.NoFrame)
         self.scroll.setWidget(self.controls)
+        self.scroll.setStyleSheet(self.scroll_stylesheet)
 
         # searchbar
         self.searchbar = QLineEdit()
         self.searchbar.setPlaceholderText("Search application....")
         self.searchbar.setFocusPolicy(Qt.FocusPolicy.StrongFocus)
         self.searchbar.setContentsMargins(10,10,10,0)
-        self.searchbar.setStyleSheet('''QLineEdit {padding-left:9px;padding-top:7px;padding-bottom:7px;outline:none;}
-        QLineEdit:focus {padding-left:9px;padding-top:7px;padding-bottom:7px;outline:none; border: none;}
-        ''')
+        self.searchbar.setStyleSheet(self.searchbar_stylesheet)
         font2 = QFont(font_family,12)
         self.searchbar.setFont(font2)
         self.searchbar.textChanged.connect(self.update_display)
@@ -101,7 +100,8 @@ class MainWindow(QMainWindow):
         self.setWindowState(Qt.WindowState.WindowNoState)
         self.setWindowFlag(Qt.WindowType.FramelessWindowHint)
         self.setFixedSize(self.app_width, self.app_height)  # or use self.resize(w, h) if you want it resizable
-        self.setStyleSheet("background-color: #1e1e2e; color: #a5aad1")
+        self.set_transparency()
+        self.setStyleSheet(self.main_window_stylesheet)
 
 
 
@@ -134,6 +134,8 @@ class MainWindow(QMainWindow):
 
         container.setLayout(containerLayout)
         self.setCentralWidget(container)
+        container.setObjectName('main_container')
+        container.setStyleSheet(f'#main_container  {self.main_container_stylesheet}')
 
         self.setWindowTitle("Peppy")       
 
@@ -240,6 +242,12 @@ class MainWindow(QMainWindow):
         self.worker = None
         self.searchbar.setText('/ ')
 
+    def set_transparency(self):
+        self.transparency_level = int(self.transparency_level)
+        if self.transparency_level >= 100:
+            self.transparency_level = 100 - self.transparency_level
+            self.setStyleSheet(f"background-color: rgba(0,0,0,{self.transparency_level})")
+
 #    def change_placeholder(self):
 #        self.searchbar.setPlaceholderText("changed")
 
@@ -253,11 +261,13 @@ class MainWindow(QMainWindow):
                 config.read(CONFIG_PATH)
 
                 self.searchbar_stylesheet = config["APPEARANCE"].get('searchbar')
+                self.transparency_level = config["APPEARANCE"].get('transparency')
                 self.main_window_stylesheet = config["APPEARANCE"].get('main_window')
                 self.first_app_stylesheet = config["APPEARANCE"].get('top_app_result')
                 self.btn_stylesheet = config["APPEARANCE"].get("app_button")
                 self.command_display_stylesheet = config["APPEARANCE"].get('command_display')
                 self.colour_preview_widget_stylesheet = config["APPEARANCE"].get('colour_preview_widget') 
+                self.main_container_stylesheet = config["APPEARANCE"].get('main_container')
                 self.scroll_stylesheet = config["APPEARANCE"].get('scroll_area')
                 self.app_width = int(config["APPEARANCE"].get('width',900))
                 self.app_height = int(config['APPEARANCE'].get('height',400))
@@ -268,28 +278,147 @@ class MainWindow(QMainWindow):
                 config = configparser.ConfigParser(interpolation=None)
 
                 config['APPEARANCE'] = {
-
-                    'main_window':"background-color: #1e1e2e; color: #a5aad1", 
-
-                    'searchbar': '''QLineEdit {padding-left:9px;padding-top:7px;padding-bottom:7px;outline:none;}
-            QLineEdit:focus {padding-left:9px;padding-top:7px;padding-bottom:7px;outline:none; border: none;}
-            ''',
                     
-                    'top_app_result': '''QPushButton{ text-align: left; padding-left: 9px; border: 2px solid #8a92c5;border-radius:5px; background-color: #1e1e2e; color: #bf9de9; outline:none;}''', 
+                    'height': '400',
 
-                    'app_button': '''QPushButton { border: none;text-align: left; padding-left: 9px }
-        QPushButton:hover { background-color: #1e1e2e; color: #bf9de9; outline:none;} 
-        QPushButton:focus { border: 2px solid #8a92c5;border-radius:5px; background-color: #1e1e2e; color: #bf9de9; outline:none;}''',
-                    
+                    'width': '900',
+
+                    'transparency': '0',
+
                     'command_display': 'padding:9px',
 
                     'colour_preview_widget': 'border: none',
 
-                    'scroll_area': 'TODO',
 
-                    'height': '400',
+                    'scroll_area': '''
 
-                    'width': '900',
+        /* Vertical Scrollbar */
+        QScrollBar:vertical {
+        border: none;
+        width: 14px;
+        margin: 15px 0 15px 0;
+        border-radius: 7px;
+        }
+
+        /* Handle bar vertical */
+        QScrollBar::handle:vertical {
+        background-color: rgb(80, 80, 122);
+        min-height: 30px;
+        border-radius: 7px;
+        }
+        QScrollBar::handle:vertical:hover {
+        background-color: rgb(255, 0, 127);
+        }
+        QScrollBar::handle:vertical:pressed {
+        background-color: rgb(185, 0, 92);
+        }
+
+        /* BTN Top scrollbar */
+        QScrollBar::sub-line:vertical {
+        border: none;
+        background-color: #1e1e2e;
+        height: 15px;
+        border-top-left-radius: 7px;
+        border-top-right-radius: 7px;
+        subcontrol-position: top;
+        subcontrol-origin: margin;
+        }
+        QScrollBar::sub-line:vertical:hover {
+        background-color: rgb(255, 0, 127);
+        }
+        QScrollBar::sub-line:vertical:pressed {
+        background-color: rgb(185, 0, 92);
+        }
+
+        /* BTN Bottom scrollbar */
+        QScrollBar::add-line:vertical {
+        border: none;
+        background-color: #1e1e2e;
+        height: 15px;
+        border-bottom-left-radius: 7px;
+        border-bottom-right-radius: 7px;
+        subcontrol-position: bottom;
+        subcontrol-origin: margin;
+        }
+        QScrollBar::add-line:vertical:hover {
+        background-color: rgb(255, 0, 127);
+        }
+        QScrollBar::add-line:vertical:pressed {
+        background-color: rgb(185, 0, 92);
+        }
+        /* reset arrow */
+        QScrollBar::up-arrow:vertical, QScrollBar::down-arrow:vertical {
+        background: none;
+        }
+        QScrollBar::add-page:vertical, QScrollBar::sub-page:vertical {
+        background: none;
+        }
+
+                    ''',
+
+                    'main_window':'''
+        background-color: #1e1e2e;
+        color: #a5aad1''', 
+
+
+                    'searchbar': '''
+        QLineEdit {
+        padding-left:9px;
+        padding-top:7px;
+        padding-bottom:7px;
+        outline:none;
+        border:none;
+        }
+        QLineEdit:focus {
+        padding-left:9px;
+        padding-top:7px;
+        padding-bottom:7px;
+        outline:none; 
+        border: none;
+        }
+        ''',
+
+                    
+                    'top_app_result': '''
+        QPushButton{ 
+        text-align: left; 
+        padding-left: 9px; 
+        border: 2px solid #8a92c5;
+        border-radius:5px; 
+        background-color: #1e1e2e; 
+        color: #bf9de9; 
+        outline:none;
+        }''', 
+
+
+                    'app_button': '''
+        QPushButton { 
+        border: none;
+        text-align: left; 
+        padding-left: 9px 
+        }
+        QPushButton:hover { 
+        background-color: #1e1e2e; 
+        color: #bf9de9; 
+        outline:none;
+        } 
+        QPushButton:focus { 
+        border: 2px solid #8a92c5;
+        border-radius:5px; 
+        background-color: #1e1e2e; 
+        color: #bf9de9; 
+        outline:none;
+        }''',
+
+
+                    'main_container': '''
+             {
+        background-color: #1e1e2e;
+        color: #a5aad1;
+        border: 2px solid #8a92c5;
+        border-radius: 10px;
+        }''',
+
 
                 }
 

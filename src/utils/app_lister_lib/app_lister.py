@@ -16,8 +16,6 @@ def application_lister():
             f"{home_path}/.local/share/applications/",
             "/var/lib/flatpak/exports/share/applications/",
             f"{home_path}/.local/share/flatpak/exports/share/applications"
-            
-            
         ]
         try:
             for dir in dir_paths:
