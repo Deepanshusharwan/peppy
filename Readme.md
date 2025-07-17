@@ -4,6 +4,8 @@
 Peppy is a light-weight, keyboard-driven, **cross platform application launcher** desinged for **Linux** and **macOS**. \
 Inspired by [Raycast](https://github.com/raycast) and [Wofi](https://github.com/SimplyCEO/wofi). \
 Built with performance and simplicity in mind, Peppy offers a fast way to open **GUI application** from a beautiful and minimal interface.
+Peppy supports Wayland as well as X11 windowing protocols
+
 
 ## Demo
 https://github.com/user-attachments/assets/588bcf6a-d648-4b8e-a3cc-66e80afe3256

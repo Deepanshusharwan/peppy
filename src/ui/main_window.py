@@ -177,8 +177,7 @@ class MainWindow(QMainWindow):
         if self.first_app:
             self.first_app.setStyleSheet(self.btn_stylesheet)
 
-        self.colour_preview_widget.hide()
-        self.command_display.hide()
+        self.first_app = None
         self.controlsLayout.removeItem(self.end_spacer)
 
         for widget in self.widgets:
@@ -193,6 +192,8 @@ class MainWindow(QMainWindow):
         )
 
         if self.visible_widgets:
+            self.colour_preview_widget.hide()
+            self.command_display.hide()
             for widget in self.visible_widgets:
                 self.controlsLayout.addWidget(widget)
                 widget.show()
@@ -476,5 +477,6 @@ if __name__ == "__main__":
     w = MainWindow()
     w.show()
     sys.exit(app.exec())
+
 
 
