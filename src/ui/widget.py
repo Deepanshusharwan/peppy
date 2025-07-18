@@ -5,6 +5,8 @@ from PyQt6.QtCore import Qt
 import subprocess
 import os
 
+from utils.app_history import increment_app_open_count
+
 
 class AppButton(QWidget):
 
@@ -56,5 +58,4 @@ class AppButton(QWidget):
                          shell=True,
                          text=True)
         QCoreApplication.quit()
-
-
+        increment_app_open_count(self.app_info["exec"])

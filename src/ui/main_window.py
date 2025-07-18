@@ -10,6 +10,8 @@ import configparser
 import sys
 import os
 
+from utils.app_history import get_app_open_count
+from utils.app_scorer import search_and_sort_apps
 from .widget import AppButton
 from utils.command_worker import WorkerThread
 
@@ -34,29 +36,6 @@ class MainWindow(QMainWindow):
         font_family = QFontDatabase.applicationFontFamilies(font_id)[0]
         font = QFont(font_family, 10)
 
-        
-        self.widgets = []
-
-        #iterate the names, creating a new AppButton for 
-        # each one, adding it to the layoout and
-        # storing a reference in the self.widgets dict
-        self.first_app = None
-        count = 0
-        for count in range(len(self.apps)):
-            app_info = self.apps[count]
-            name = app_info.get('name')
-            item = AppButton(name,app_info)
-            item.btn.setFocusPolicy(Qt.FocusPolicy.WheelFocus)
-            item.setStyleSheet(self.btn_stylesheet)
-            if count == 0:
-                self.first_app = item
-                count += 1
-
-            self.controlsLayout.addWidget(item)
-            self.widgets.append(item)
-        self.visible_widgets = self.widgets.copy()
-        self.first_app.setStyleSheet(self.first_app_stylesheet)
-
         # output area for the shell output
         self.command_display= QTextEdit()
         self.command_display.setReadOnly(True)
@@ -72,8 +51,8 @@ class MainWindow(QMainWindow):
         self.controlsLayout.addWidget(self.colour_preview_widget)
         self.colour_preview_widget.hide()
 
-        end_spacer = QSpacerItem(1, 1, QSizePolicy.Policy.Minimum, QSizePolicy.Policy.Expanding)
-        self.controlsLayout.addItem(end_spacer)
+        self.end_spacer = QSpacerItem(1, 1, QSizePolicy.Policy.Minimum, QSizePolicy.Policy.Expanding)
+        self.controlsLayout.addItem(self.end_spacer)
         self.controls.setLayout(self.controlsLayout)
 
         # scroll area properties
@@ -102,8 +81,22 @@ class MainWindow(QMainWindow):
         self.set_transparency()
         self.setStyleSheet(self.main_window_stylesheet)
 
+        self.widgets = []
+        self.visible_widgets = []
 
+        # iterate the names, creating a new AppButton for
+        # each one, adding it to the layout and
+        # storing a reference in the self.widgets dict
+        self.first_app = None
+        for app_info in self.apps:
+            name = app_info.get('name')
+            item = AppButton(name,app_info)
+            item.btn.setFocusPolicy(Qt.FocusPolicy.WheelFocus)
+            item.setStyleSheet(self.btn_stylesheet)
+            self.widgets.append(item)
 
+        self.update_display('')
+        self.first_app.setStyleSheet(self.first_app_stylesheet)
 
         # TODO make the completer suggestions for autocompletion and display them as the
         # placeholder text in searchbar and pressing tab for autocompletion
@@ -180,24 +173,34 @@ class MainWindow(QMainWindow):
             self.searchbar.setFocus()
             QApplication.sendEvent(self.searchbar,event)
 
-
-    def update_display(self,text):
+    def update_display(self, text: str):
         if self.first_app:
             self.first_app.setStyleSheet(self.btn_stylesheet)
+
         self.first_app = None
-        self.visible_widgets = []
+        self.controlsLayout.removeItem(self.end_spacer)
 
         for widget in self.widgets:
-            if text.lower() in widget.name.lower():
-                if self.first_app is None:
-                    self.first_app = widget
-                    self.first_app.setStyleSheet(self.first_app_stylesheet)
+            self.controlsLayout.removeWidget(widget)
+            widget.hide()
+
+        self.visible_widgets = search_and_sort_apps(
+            text.lower(),
+            self.widgets,
+            key=lambda x: x.name.lower(),
+            open_count=lambda x: get_app_open_count(x.app_info["exec"]),
+        )
+
+        if self.visible_widgets:
+            self.colour_preview_widget.hide()
+            self.command_display.hide()
+            for widget in self.visible_widgets:
+                self.controlsLayout.addWidget(widget)
                 widget.show()
-                self.visible_widgets.append(widget)
-                self.colour_preview_widget.hide()
-                self.command_display.hide()
-            else:
-                widget.hide()
+            self.first_app = self.visible_widgets[0]
+            self.first_app.setStyleSheet(self.first_app_stylesheet)
+
+        self.controlsLayout.addItem(self.end_spacer)
 
     def process_search_input(self):
         if self.first_app:
@@ -474,5 +477,6 @@ if __name__ == "__main__":
     w = MainWindow()
     w.show()
     sys.exit(app.exec())
+
 
 
