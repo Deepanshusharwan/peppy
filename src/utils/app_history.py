@@ -27,16 +27,15 @@ def get_app_open_counts_dict() -> dict[str, AppOpenCounts]:
         except Exception:
             _app_open_counts_cache = {}
 
-    datetime_30d_ago = datetime.datetime.now() - datetime.timedelta(days=30)
-
-    # Remove entries older than 30 days
-    for app_exec in list(_app_open_counts_cache.keys()):
-        obj = _app_open_counts_cache[app_exec]
-        recent_open = datetime.datetime.strptime(
-            obj["recent_open"], "%Y-%m-%d %H:%M:%S"
-        )
-        if recent_open < datetime_30d_ago:
-            _app_open_counts_cache.pop(app_exec, None)
+        # Remove entries older than 30 days
+        datetime_30d_ago = datetime.datetime.now() - datetime.timedelta(days=30)
+        for app_exec in list(_app_open_counts_cache.keys()):
+            obj = _app_open_counts_cache[app_exec]
+            recent_open = datetime.datetime.strptime(
+                obj["recent_open"], "%Y-%m-%d %H:%M:%S"
+            )
+            if recent_open < datetime_30d_ago:
+                _app_open_counts_cache.pop(app_exec, None)
 
     return _app_open_counts_cache
 
