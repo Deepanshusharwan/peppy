@@ -236,3 +236,4 @@ Pull requests are welcome! Feel free to fork this repo, open issues, and suggest
 
 ## 🫂 Contributors
 [Gaurav Vashisht](https://github.com/r2adio)
+[ClanEver](https://github.com/ClanEver)
