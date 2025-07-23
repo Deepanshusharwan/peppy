@@ -322,154 +322,156 @@ class MainWindow(QMainWindow):
             else:
                 os.makedirs(CONFIG_PATH.removesuffix('peppy.conf'),exist_ok=True)
                 config = configparser.ConfigParser(interpolation=None)
-
-                config['APPEARANCE'] = {
-                    
-                    'height': '400',
-
-                    'width': '900',
-
-                    'transparency': '0',
-
-                    'command_display': 'padding:9px',
-
-
-                    'scroll_area': '''
-
-        /* Vertical Scrollbar */
-        QScrollBar:vertical {
-        border: none;
-        width: 14px;
-        margin: 15px 0 15px 0;
-        border-radius: 7px;
-        }
-
-        /* Handle bar vertical */
-        QScrollBar::handle:vertical {
-        background-color: rgb(80, 80, 122);
-        min-height: 30px;
-        border-radius: 7px;
-        }
-        QScrollBar::handle:vertical:hover {
-        background-color: rgb(255, 0, 127);
-        }
-        QScrollBar::handle:vertical:pressed {
-        background-color: rgb(185, 0, 92);
-        }
-
-        /* BTN Top scrollbar */
-        QScrollBar::sub-line:vertical {
-        border: none;
-        background-color: #1e1e2e;
-        height: 15px;
-        border-top-left-radius: 7px;
-        border-top-right-radius: 7px;
-        subcontrol-position: top;
-        subcontrol-origin: margin;
-        }
-        QScrollBar::sub-line:vertical:hover {
-        background-color: rgb(255, 0, 127);
-        }
-        QScrollBar::sub-line:vertical:pressed {
-        background-color: rgb(185, 0, 92);
-        }
-
-        /* BTN Bottom scrollbar */
-        QScrollBar::add-line:vertical {
-        border: none;
-        background-color: #1e1e2e;
-        height: 15px;
-        border-bottom-left-radius: 7px;
-        border-bottom-right-radius: 7px;
-        subcontrol-position: bottom;
-        subcontrol-origin: margin;
-        }
-        QScrollBar::add-line:vertical:hover {
-        background-color: rgb(255, 0, 127);
-        }
-        QScrollBar::add-line:vertical:pressed {
-        background-color: rgb(185, 0, 92);
-        }
-        /* reset arrow */
-        QScrollBar::up-arrow:vertical, QScrollBar::down-arrow:vertical {
-        background: none;
-        }
-        QScrollBar::add-page:vertical, QScrollBar::sub-page:vertical {
-        background: none;
-        }
-
-                    ''',
-
-                    'main_window':'''
-        background-color: #1e1e2e;
-        color: #a5aad1''', 
-
-
-                    'searchbar': '''
-        QLineEdit {
-        padding-left:9px;
-        padding-top:7px;
-        padding-bottom:7px;
-        outline:none;
-        border:none;
-        }
-        QLineEdit:focus {
-        padding-left:9px;
-        padding-top:7px;
-        padding-bottom:7px;
-        outline:none; 
-        border: none;
-        }
-        ''',
-
-                    
-                    'top_app_result': '''
-        QPushButton{ 
-        text-align: left; 
-        padding-left: 9px; 
-        border: 2px solid #8a92c5;
-        border-radius:5px; 
-        background-color: #1e1e2e; 
-        color: #bf9de9; 
-        outline:none;
-        }''', 
-
-
-                    'app_button': '''
-        QPushButton { 
-        border: none;
-        text-align: left; 
-        padding-left: 9px 
-        }
-        QPushButton:hover { 
-        background-color: #1e1e2e; 
-        color: #bf9de9; 
-        outline:none;
-        } 
-        QPushButton:focus { 
-        border: 2px solid #8a92c5;
-        border-radius:5px; 
-        background-color: #1e1e2e; 
-        color: #bf9de9; 
-        outline:none;
-        }''',
-
-
-                    'main_container': '''
-             {
-        background-color: #1e1e2e;
-        color: #a5aad1;
-        border: 2px solid #8a92c5;
-        border-radius: 10px;
-        }''',
-
-
-                }
-
-
+                config_content(config)
                 with open(CONFIG_PATH,'w') as configfile:
                     config.write(configfile)
                 
+
+def config_content(config):
+    config['APPEARANCE'] = {
+        
+        'height': '400',
+
+        'width': '900',
+
+        'transparency': '0',
+
+        'command_display': 'padding:9px',
+
+
+        'scroll_area': '''
+
+/* Vertical Scrollbar */
+QScrollBar:vertical {
+border: none;
+width: 14px;
+margin: 15px 0 15px 0;
+border-radius: 7px;
+}
+
+/* Handle bar vertical */
+QScrollBar::handle:vertical {
+background-color: rgb(80, 80, 122);
+min-height: 30px;
+border-radius: 7px;
+}
+QScrollBar::handle:vertical:hover {
+background-color: rgb(255, 0, 127);
+}
+QScrollBar::handle:vertical:pressed {
+background-color: rgb(185, 0, 92);
+}
+
+/* BTN Top scrollbar */
+QScrollBar::sub-line:vertical {
+border: none;
+background-color: #1e1e2e;
+height: 15px;
+border-top-left-radius: 7px;
+border-top-right-radius: 7px;
+subcontrol-position: top;
+subcontrol-origin: margin;
+}
+QScrollBar::sub-line:vertical:hover {
+background-color: rgb(255, 0, 127);
+}
+QScrollBar::sub-line:vertical:pressed {
+background-color: rgb(185, 0, 92);
+}
+
+/* BTN Bottom scrollbar */
+QScrollBar::add-line:vertical {
+border: none;
+background-color: #1e1e2e;
+height: 15px;
+border-bottom-left-radius: 7px;
+border-bottom-right-radius: 7px;
+subcontrol-position: bottom;
+subcontrol-origin: margin;
+}
+QScrollBar::add-line:vertical:hover {
+background-color: rgb(255, 0, 127);
+}
+QScrollBar::add-line:vertical:pressed {
+background-color: rgb(185, 0, 92);
+}
+/* reset arrow */
+QScrollBar::up-arrow:vertical, QScrollBar::down-arrow:vertical {
+background: none;
+}
+QScrollBar::add-page:vertical, QScrollBar::sub-page:vertical {
+background: none;
+}
+
+            ''',
+
+        'main_window':'''
+background-color: #1e1e2e;
+color: #a5aad1''', 
+
+
+        'searchbar': '''
+QLineEdit {
+padding-left:9px;
+padding-top:7px;
+padding-bottom:7px;
+outline:none;
+border:none;
+}
+QLineEdit:focus {
+padding-left:9px;
+padding-top:7px;
+padding-bottom:7px;
+outline:none; 
+border: none;
+}
+''',
+
+            
+        'top_app_result': '''
+QPushButton{ 
+text-align: left; 
+padding-left: 9px; 
+border: 2px solid #8a92c5;
+border-radius:5px; 
+background-color: #1e1e2e; 
+color: #bf9de9; 
+outline:none;
+}''', 
+
+
+        'app_button': '''
+QPushButton { 
+border: none;
+text-align: left; 
+padding-left: 9px 
+}
+QPushButton:hover { 
+background-color: #1e1e2e; 
+color: #bf9de9; 
+outline:none;
+} 
+QPushButton:focus { 
+border: 2px solid #8a92c5;
+border-radius:5px; 
+background-color: #1e1e2e; 
+color: #bf9de9; 
+outline:none;
+}''',
+
+
+        'main_container': '''
+     {
+background-color: #1e1e2e;
+color: #a5aad1;
+border: 2px solid #8a92c5;
+border-radius: 10px;
+}''',
+
+
+    }
+    
+
 
 
 if __name__ == "__main__":

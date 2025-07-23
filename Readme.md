@@ -1,55 +1,64 @@
 # Peppy
+
 ![](assets/peppy_logo_with_background.svg)
 
-Peppy is a light-weight, keyboard-driven, **cross platform application launcher** desinged for **Linux** and **macOS**. \
+Peppy is a light-weight, keyboard-driven, **cross platform application launcher** designed for **Linux** and **macOS**. \
 Inspired by [Raycast](https://github.com/raycast) and [Wofi](https://github.com/SimplyCEO/wofi). \
 Built with performance and simplicity in mind, Peppy offers a fast way to open **GUI application** from a beautiful and minimal interface.
 Peppy supports Wayland as well as X11 windowing protocols
 
-
 ## Demo
+
 https://github.com/user-attachments/assets/588bcf6a-d648-4b8e-a3cc-66e80afe3256
 
-
-
 ## Features
+
 - ⚡ **Lightning-fast fuzzy search** for installed apps
 - ⌨️ **Full keyboard navigation** – `Enter`, `Esc`, `↑ ↓`, `Ctrl+C`, etc.
 - 🚀 **Launch top result instantly** with `Enter`
 - 📜 **Run shell commands/scripts** by prefixing input with `/`
   - e.g., `/neofetch`, `/./myscript.sh`, `/python3 myscript.py`
-- 🖌 **Check colour** of the hex and rgb codes by  prefixing input with '#'
+- 🖌 **Check colour** of the hex and rgb codes by prefixing input with '#'
   - e.g., `#ffff00`, `# rgb(23,24,23)`
 - 🧠 **Intelligent command handling** with subprocess
-- 🧩 **Custom Script/external command integration** 
+- 🧩 **Custom Script/external command integration**
 - 🖱️ **Smart focus management** for seamless typing
 - 🎨 **Clean, customizable PyQt6 UI**
-- 🐧 Linux and Mac os support
+- 🐧 Linux and macOS support
 - 🛠️ **Modular and extensible** codebase
 
 ## Installation ->
+
 ### Prerequisites:
+
 - Python 3.10 or later installed on your system
 - Git installed for cloning the repository
-- Pip 
+- Pip
 
 ### Install with a Single command:
+
 ```bash
 curl -sSL https://raw.githubusercontent.com/Deepanshusharwan/peppy/main/build.sh | bash
 ```
 
 ### Manual Install:
+
 1. **Clone the repo and cd into it**
+
 ```
 git clone https://github.com/Deepanshusharwan/peppy.git
 cd peppy
 ```
-2. **Setup a virtual enviroment**
+
+2. **Setup a virtual environment**
+
 ```
 python -m venv .venv
 source ./.venv/bin/activate
 ```
+
 3. **Install the libraries**
+
 ```
 pip install uv
 uv pip install .
@@ -58,13 +67,17 @@ pip install pyinstaller
 
 #### Note: Stop here and move to the Usage instructions if you simply want to run it as a script and not a binary
 
-4. **For Linux** 
-* Systemwide install
-``` 
-chmod +x linux_build.sh    
+4. **For Linux**
+
+- Systemwide install
+
+```
+chmod +x linux_build.sh
 ./linux_build.sh
 ```
-* Only build the executable
+
+- Only build the executable
+
 ```
 pyinstaller --onedir --clean --strip \
   --optimize=1 \
@@ -74,13 +87,17 @@ pyinstaller --onedir --clean --strip \
   src/main.py
 ```
 
-4. **For Mac os**
-* Systemwide install
-``` 
+4. **For macOS**
+
+- Systemwide install
+
+```
 chmod +x mac_build.sh
 ./mac_build.sh
 ```
-* Only build the executable
+
+- Only build the executable
+
 ```
 pyinstaller --onedir --clean --strip \
   --optimize=1 \
@@ -91,62 +108,73 @@ pyinstaller --onedir --clean --strip \
 ```
 
 ## Usage ->
+
 ### Launching the program:
+
 #### Case 1: systemwide install
-* simply launch it from the terminal
+
+- simply launch it from the terminal
+
 ```
 peppy
 ```
+
 #### Case 2: Only built the exec file and not installed.
-``` 
+
+```
 ./dist/peppy/peppy
 ```
+
 #### Case 3: Run without building the app
-``` 
+
+```
 python src/main.py
 ```
 
 ### Using Peppy:
-* Launch the application
-![](./assets/screenshot1.png)
 
-* Type an application name 
-![](./assets/screenshot2.png)
+- Launch the application
+  ![](./assets/screenshot1.png)
 
-* Press enter to open the top app or manually go down to the name of the app you want to open or click it.
+- Type an application name
+  ![](./assets/screenshot2.png)
 
-* typing anywhere will directly put the text in the searchbar
+- Press enter to open the top app or manually go down to the name of the app you want to open or click it.
+
+- typing anywhere will directly put the text in the searchbar
 
 #### Use External scripts and commands:
-* Put a '/' before running a command and press enter to run it. 
-![](./assets/screenshot3.png)
-* The result will be displayed in a text box below the searchbar
-![](./assets/screenshot4.png)
-* The text box gets cleared everytime you close the app
-* Every command you type will be stored in the textbox
-![](./assets/screenshot5.png)
+
+- Put a '/' before running a command and press enter to run it.
+  ![](./assets/screenshot3.png)
+- The result will be displayed in a text box below the searchbar
+  ![](./assets/screenshot4.png)
+- The text box gets cleared everytime you close the app
+- Every command you type will be stored in the textbox
+  ![](./assets/screenshot5.png)
 
 #### Use the colour converter:
-* Put a '#' before entering the hex or the rgb value and press enter to check it out
-![](./assets/screenshot6.png)
-* The result will be displayed in the 
-![](./assets/screenshot7.png)
-* similarly to check the rgb colour put the value inside the parenthesis like this "rgb(23,232,23)"
-![](./assets/screenshot8.png)
-* If an invalid value is entered then the dialogue box will show the colour of the background
-![](./assets/screenshot9.png)
 
+- Put a '#' before entering the hex or the rgb value and press enter to check it out
+  ![](./assets/screenshot6.png)
+- The result will be displayed in the
+  ![](./assets/screenshot7.png)
+- similarly to check the rgb colour put the value inside the parenthesis like this "rgb(23,232,23)"
+  ![](./assets/screenshot8.png)
+- If an invalid value is entered then the dialogue box will show the colour of the background
+  ![](./assets/screenshot9.png)
 
 ## Customization
-* You can customize peppy by putting css inside the peppy.conf to customize it to your needs.
-* if you accidentally delete it don't worry just run peppy and it will automatically recreate the configuration file.
-* peppy.conf is the file that contains the stylesheets of the application
-* **LOCATION**: /home/$USER/.config/peppy/peppy.conf
-* write the css for the desired key infront of it and follow ini config files standards
-* if the stylesheet of the widget or container is long and more then one line be sure to indent the lines so that the config parser knows it is part of the key from the last line and not a new value.
 
+- You can customize peppy by putting css inside the peppy.conf to customize it to your needs.
+- if you accidentally delete it don't worry just run peppy and it will automatically recreate the configuration file.
+- peppy.conf is the file that contains the stylesheets of the application
+- **LOCATION**: /home/$USER/.config/peppy/peppy.conf
+- write the css for the desired key infront of it and follow ini config files standards
+- if the stylesheet of the widget or container is long and more then one line be sure to indent the lines so that the config parser knows it is part of the key from the last line and not a new value.
 
 ## File Tree structure
+
 ```
 ├─ .git
 ├─ .github
@@ -216,24 +244,27 @@ Total directories: 12
 Total files: 58
 ```
 
-
 ## Planned Features
 
-*  File search & preview
-*  Theming (light/dark/custom)
-*  Plugin/extension system
-*  History & frequently used tracking
-*  Integration with clipboard, browser bookmarks, system settings
+- File search & preview
+- Theming (light/dark/custom)
+- Plugin/extension system
+- Integration with clipboard, browser bookmarks, system settings
+
+## Listing bugs
+
+💡 Found a bug or want to suggest a feature? [Open an Issue](https://github.com/Deepanshusharwan/peppy/issues)
 
 ## 🤝 Contributing
+
 Pull requests are welcome! Feel free to fork this repo, open issues, and suggest enhancements.
 
-
 ## 📬 Author
+
 **Deepanshu Sharwan** \
 [Github](https://github.com/deepanshusharwan) | email: deepanshusharwan35@gmail.com
 
-
 ## 🫂 Contributors
-[Gaurav Vashisht](https://github.com/r2adio)
+
+[Gaurav Vashisht](https://github.com/r2adio) \
 [ClanEver](https://github.com/ClanEver)
