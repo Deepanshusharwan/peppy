@@ -98,7 +98,7 @@ def search_and_sort_apps[T: Any](
     for i in results:
         # Boost score by open count
         i["score"] = i["score"] * (open_count(i["item"]) / max_open_count + 1)
-        print(key(i["item"]), i["score"])
+        #print(key(i["item"]), i["score"])
 
     results.sort(key=lambda x: x["score"], reverse=True)
     return [i["item"] for i in results]

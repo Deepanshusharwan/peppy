@@ -1,5 +1,7 @@
 from PyQt6.QtCore import  QThread, pyqtSignal
 import subprocess
+from configparser import ConfigParser
+import os
 import shlex
 import sys
 
@@ -18,7 +20,21 @@ class WorkerThread(QThread):
 
     def run(self):
         try:
-            command = self.command_text
+            try:
+                CONFIG_PATH = f"{os.environ.get('HOME','~')}/.config/peppy/peppy.conf"
+                os.path.isfile(CONFIG_PATH)            
+                config = ConfigParser(interpolation=None)
+                config.read(CONFIG_PATH)
+                paths = config["MISC"].get('PATHS')
+            except KeyError:
+                config["MISC"] = {
+                    'PATHS': ''
+                }
+                paths = ''
+                with open(CONFIG_PATH,'w') as configfile:
+                    config.write(configfile)
+
+            command = f'export PATH="$PATH:{paths}";{self.command_text}'
             self._process = subprocess.Popen(command,
                                              stdout=subprocess.PIPE,
                                              stderr=subprocess.PIPE,
