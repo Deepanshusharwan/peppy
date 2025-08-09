@@ -1,8 +1,11 @@
-from PyQt6.QtWidgets import QWidget, QPushButton, QHBoxLayout
+from PyQt6.QtWidgets import QWidget, QPushButton, QHBoxLayout, QTextEdit, QVBoxLayout,QApplication
 from PyQt6.QtGui import QIcon, QFont, QFontDatabase
 from PyQt6.QtCore import QCoreApplication
 from PyQt6.QtCore import Qt
 import subprocess
+import requests
+import json
+import sys
 import os
 
 from utils.app_history import increment_app_open_count
@@ -59,3 +62,94 @@ class AppButton(QWidget):
                          text=True)
         QCoreApplication.quit()
         increment_app_open_count(self.app_info["exec"])
+
+
+
+
+class WordDictionary(QWidget):
+    def __init__(self, word: str):
+        super().__init__()
+        self.word = word
+        self.setWindowTitle(f"Dictionary - {word}")
+        self.resize(600, 500)
+
+        layout = QVBoxLayout(self)
+
+        # QTextEdit for displaying formatted text
+        self.text_edit = QTextEdit(self)
+        self.text_edit.setReadOnly(True)
+        self.text_edit.setFrameStyle(QTextEdit.Shape.NoFrame)
+        self.text_edit.setFont(QFont("Arial", 12))
+        self.text_edit.setVerticalScrollBarPolicy(Qt.ScrollBarPolicy.ScrollBarAsNeeded)
+
+        layout.addWidget(self.text_edit)
+        self.setLayout(layout)
+
+        self.get_word_data(word)
+
+    def get_word_data(self, word):
+        r = requests.get(f"https://api.dictionaryapi.dev/api/v2/entries/en/{word}")
+        
+        try:
+            entries = r.json()
+        except json.JSONDecodeError:
+            self.text_edit.setHtml("<b>Error:</b> Could not parse JSON response.")
+            return
+        
+        if isinstance(entries, dict) and "title" in entries:
+            self.text_edit.setHtml(f"<b>Error:</b> {entries.get('message', 'No definition found.')}")
+            return
+        
+        html_content = ""
+        for entry in entries:
+            # Word heading
+            html_content += f"<h1 style='color:white;'>{entry.get('word', 'N/A').title()}</h1>"
+            html_content += f"<p style='color:#8424e3;'><b>Phonetic:</b> {entry.get('phonetic', 'N/A')}</p>"
+            
+            # Phonetics list
+            if entry.get("phonetics"):
+                html_content += "<p><b>Phonetics:</b></p><ul>"
+                for p in entry["phonetics"]:
+                    text = p.get("text")
+                    audio = p.get("audio")
+                    if text:
+                        html_content += f"<li>{text}</li>"
+                    if audio:
+                        html_content += f"<li><a href='{audio}' style='color:rgb(36,141,227);'>Audio</a></li>"
+                html_content += "</ul>"
+            
+            # Meanings
+            for meaning in entry.get("meanings", []):
+                html_content += f"<h3 style='color:darkgreen;'>{meaning.get('partOfSpeech', 'N/A')}</h3>"
+                
+                if meaning.get("synonyms"):
+                    html_content += f"<p><b>Synonyms:</b> {', '.join(meaning['synonyms'])}</p>"
+                if meaning.get("antonyms"):
+                    html_content += f"<p><b>Antonyms:</b> {', '.join(meaning['antonyms'])}</p>"
+                
+                for definition in meaning.get("definitions", []):
+                    html_content += f"<p style='font-size:14px;'><b>Definition:</b> {definition.get('definition', 'N/A')}</p>"
+                    
+                    if definition.get("example"):
+                        html_content += f"<p style='font-size:11px; font-style:italic; color:gray;'>Example: {definition['example']}</p>"
+                    
+                    if definition.get("synonyms"):
+                        html_content += f"<p><b>Synonyms:</b> {', '.join(definition['synonyms'])}</p>"
+                    if definition.get("antonyms"):
+                        html_content += f"<p><b>Antonyms:</b> {', '.join(definition['antonyms'])}</p>"
+            
+            # Source URLs
+            if entry.get("sourceUrls"):
+                html_content += "<p style='color: rgb(36, 141, 227);'><b>Source URLs:</b></p><ul>"
+                for url in entry["sourceUrls"]:
+                    html_content += f"<li><a href='{url}' style='color:rgb(36,141,227);'>{url}</a></li>"
+                html_content += "</ul>"
+
+        self.text_edit.setHtml(html_content)
+
+
+if __name__ == "__main__":
+    app = QApplication(sys.argv)
+    win = WordDictionary("hi")
+    win.show()
+    sys.exit(app.exec())

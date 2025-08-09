@@ -12,7 +12,7 @@ import os
 
 from utils.app_history import get_app_open_count
 from utils.app_scorer import search_and_sort_apps
-from .widget import AppButton
+from .widget import AppButton, WordDictionary
 from utils.command_worker import WorkerThread
 
 class MainWindow(QMainWindow):
@@ -35,6 +35,7 @@ class MainWindow(QMainWindow):
         font_id = QFontDatabase.addApplicationFont(font_path)
         font_family = QFontDatabase.applicationFontFamilies(font_id)[0]
         font = QFont(font_family, 10)
+        self.font = font
 
         # output area for the shell output
         self.command_display= QTextEdit()
@@ -194,6 +195,11 @@ class MainWindow(QMainWindow):
         if self.visible_widgets:
             self.colour_preview_widget.hide()
             self.command_display.hide()
+            try:
+                self.dictionary.hide()
+            except AttributeError:
+                pass
+
             for widget in self.visible_widgets:
                 self.controlsLayout.addWidget(widget)
                 widget.show()
@@ -216,6 +222,22 @@ class MainWindow(QMainWindow):
             self.worker.error_signal.connect(self.display_shell_error)
             self.worker.finished_signal.connect(self.on_shell_finished)
             self.worker.start()
+
+        elif self.searchbar.text().strip().startswith('meaning'):
+            try:
+                self.controlsLayout.removeWidget(self.dictionary)
+            except AttributeError:
+                pass 
+
+            words = self.searchbar.text().strip().split()[1:]
+            search_word = ''
+            for word in words:
+                search_word += str(word)
+            self.dictionary = WordDictionary(search_word)
+            self.controlsLayout.addWidget(self.dictionary,stretch=1)
+            #self.dictionary.setFont(font)
+
+            self.dictionary.show()
 
         elif self.searchbar.text().strip().startswith('#'): # for colour codes
             colour = self.searchbar.text().strip()
