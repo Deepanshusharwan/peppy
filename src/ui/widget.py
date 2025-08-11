@@ -101,23 +101,25 @@ class WordDictionary(QWidget):
             return
         
         html_content = ""
+        # Word heading
+        html_content += f"<h1 style='color:white;'>{entries[0].get('word', 'N/A').title()}</h1>"
+        html_content += f"<p style='color:#8424e3;'><b>Phonetic:</b> {entries[0].get('phonetic', 'N/A')}</p>"
+        
+        # Phonetics list
+        if entries[0].get("phonetics"):
+            html_content += "<p><b>Phonetics:</b></p><ul>"
+            for p in entries[0]["phonetics"]:
+                text = p.get("text")
+                audio = p.get("audio")
+                if text:
+                    html_content += f"<li>{text}</li>"
+                if audio:
+                    html_content += f"<li><a href='{audio}' style='color:rgb(36,141,227);'>Audio</a></li>"
+            html_content += "</ul>"
+            
+
         for entry in entries:
-            # Word heading
-            html_content += f"<h1 style='color:white;'>{entry.get('word', 'N/A').title()}</h1>"
-            html_content += f"<p style='color:#8424e3;'><b>Phonetic:</b> {entry.get('phonetic', 'N/A')}</p>"
-            
-            # Phonetics list
-            if entry.get("phonetics"):
-                html_content += "<p><b>Phonetics:</b></p><ul>"
-                for p in entry["phonetics"]:
-                    text = p.get("text")
-                    audio = p.get("audio")
-                    if text:
-                        html_content += f"<li>{text}</li>"
-                    if audio:
-                        html_content += f"<li><a href='{audio}' style='color:rgb(36,141,227);'>Audio</a></li>"
-                html_content += "</ul>"
-            
+
             # Meanings
             for meaning in entry.get("meanings", []):
                 html_content += f"<h3 style='color:darkgreen;'>{meaning.get('partOfSpeech', 'N/A')}</h3>"
