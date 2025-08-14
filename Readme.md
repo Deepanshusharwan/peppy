@@ -7,11 +7,21 @@ Inspired by [Raycast](https://github.com/raycast) and [Wofi](https://github.com/
 Built with performance and simplicity in mind, Peppy offers a fast way to open **GUI application** from a beautiful and minimal interface.
 Peppy supports Wayland as well as X11 windowing protocols
 
-## Demo
+# Demo
 
 https://github.com/user-attachments/assets/588bcf6a-d648-4b8e-a3cc-66e80afe3256
 
-## Features
+# Content list:
+* [Features](#features)
+* [Installation](#installation--)
+* [Usage](#usage--)
+* [Customization](#customization)
+* [File Tree Structure](#file-tree-structure)
+* [Planned Feature](#planned-features)
+* [Thanks](#thanks-to)
+* [Contributors](#-contributors)
+
+# Features
 
 - ⚡ **Lightning-fast fuzzy search** for installed apps
 - ⌨️ **Full keyboard navigation** – `Enter`, `Esc`, `↑ ↓`, `Ctrl+C`, etc.
@@ -27,21 +37,21 @@ https://github.com/user-attachments/assets/588bcf6a-d648-4b8e-a3cc-66e80afe3256
 - 🐧 Linux and macOS support
 - 🛠️ **Modular and extensible** codebase
 
-## Installation ->
+# Installation ->
 
-### Prerequisites:
+## Prerequisites:
 
 - Python 3.10 or later installed on your system
 - Git installed for cloning the repository
 - Pip
 
-### Install with a Single command:
+## Install with a Single command:
 
 ```bash
 curl -sSL https://raw.githubusercontent.com/Deepanshusharwan/peppy/main/build.sh | bash
 ```
 
-### Manual Install:
+## Manual Install:
 
 1. **Clone the repo and cd into it**
 
@@ -65,7 +75,7 @@ uv pip install .
 pip install pyinstaller
 ```
 
-#### Note: Stop here and move to the Usage instructions if you simply want to run it as a script and not a binary
+### Note: Stop here and move to the Usage instructions if you simply want to run it as a script and not a binary
 
 4. **For Linux**
 
@@ -107,11 +117,11 @@ pyinstaller --onedir --clean --strip \
   src/main.py
 ```
 
-## Usage ->
+# Usage ->
 
-### Launching the program:
+## Launching the program:
 
-#### Case 1: systemwide install
+### Case 1: systemwide install
 
 - simply launch it from the terminal
 
@@ -119,19 +129,19 @@ pyinstaller --onedir --clean --strip \
 peppy
 ```
 
-#### Case 2: Only built the exec file and not installed.
+### Case 2: Only built the exec file and not installed.
 
 ```
 ./dist/peppy/peppy
 ```
 
-#### Case 3: Run without building the app
+### Case 3: Run without building the app
 
 ```
 python src/main.py
 ```
 
-### Using Peppy:
+## Using Peppy:
 
 - Launch the application
   ![](./assets/screenshot1.png)
@@ -143,7 +153,7 @@ python src/main.py
 
 - typing anywhere will directly put the text in the searchbar
 
-#### Use External scripts and commands:
+### Use External scripts and commands:
 
 - Put a '/' before running a command and press enter to run it.
   ![](./assets/screenshot3.png)
@@ -153,7 +163,16 @@ python src/main.py
 - Every command you type will be stored in the textbox
   ![](./assets/screenshot5.png)
 
-#### Use the colour converter:
+### Use the dictionary:
+
+FORMAT: \
+```meaning <word>```
+
+- Type the word you want the meaning for in the above format
+ ![](./assets/screenshot10.png)
+
+
+### Use the colour converter:
 
 - Put a '#' before entering the hex or the rgb value and press enter to check it out
   ![](./assets/screenshot6.png)
@@ -164,7 +183,8 @@ python src/main.py
 - If an invalid value is entered then the dialogue box will show the colour of the background
   ![](./assets/screenshot9.png)
 
-## Customization
+
+# Customization
 
 - You can customize peppy by putting css inside the peppy.conf to customize it to your needs.
 - if you accidentally delete it don't worry just run peppy and it will automatically recreate the configuration file.
@@ -251,6 +271,10 @@ Total files: 58
 - Plugin/extension system
 - Integration with clipboard, browser bookmarks, system settings
 
+## Thanks to
+- [meetDeveloper](https://github.com/meetDeveloper/freeDictionaryAPI) (For the dictionary api) 
+- [Contributors](#-contributors)
+
 ## Listing bugs
 
 💡 Found a bug or want to suggest a feature? [Open an Issue](https://github.com/Deepanshusharwan/peppy/issues)
@@ -268,3 +292,9 @@ Pull requests are welcome! Feel free to fork this repo, open issues, and suggest
 
 [Gaurav Vashisht](https://github.com/r2adio) \
 [ClanEver](https://github.com/ClanEver)
+
+<a href="https://github.com/deepanshusharwan/peppy/graphs/contributors">
+  <img src="https://contrib.rocks/image?repo=deepanshusharwan/peppy" />
+</a>
+
+Made with [contrib.rocks](https://contrib.rocks).
