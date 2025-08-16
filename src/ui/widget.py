@@ -88,7 +88,10 @@ class WordDictionary(QWidget):
         self.get_word_data(word)
 
     def get_word_data(self, word):
-        r = requests.get(f"https://api.dictionaryapi.dev/api/v2/entries/en/{word}")
+        try:
+            r = requests.get(f"https://api.dictionaryapi.dev/api/v2/entries/en/{word}")
+        except requests.exceptions.ConnectionError() or requests.exceptions.ConnectTimeout():
+            self.text_edit.setHtml("<b>Error:</b> Could not connect to the api. Please check your internet connection.")
         
         try:
             entries = r.json()
