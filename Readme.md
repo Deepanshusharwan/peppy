@@ -12,14 +12,15 @@ Peppy supports Wayland as well as X11 windowing protocols
 https://github.com/user-attachments/assets/588bcf6a-d648-4b8e-a3cc-66e80afe3256
 
 # Content list:
-* [Features](#features)
-* [Installation](#installation--)
-* [Usage](#usage--)
-* [Customization](#customization)
-* [File Tree Structure](#file-tree-structure)
-* [Planned Feature](#planned-features)
-* [Thanks](#thanks-to)
-* [Contributors](#-contributors)
+
+- [Features](#features)
+- [Installation](#installation--)
+- [Usage](#usage--)
+- [Customization](#customization)
+- [File Tree Structure](#file-tree-structure)
+- [Planned Feature](#planned-features)
+- [Thanks](#thanks-to)
+- [Contributors](#-contributors)
 
 # Features
 
@@ -166,11 +167,10 @@ python src/main.py
 ### Use the dictionary:
 
 FORMAT: \
-```meaning <word>```
+`meaning <word>`
 
 - Type the word you want the meaning for in the above format
- ![](./assets/screenshot10.png)
-
+  ![](./assets/screenshot10.png)
 
 ### Use the colour converter:
 
@@ -182,7 +182,6 @@ FORMAT: \
   ![](./assets/screenshot8.png)
 - If an invalid value is entered then the dialogue box will show the colour of the background
   ![](./assets/screenshot9.png)
-
 
 # Customization
 
@@ -272,7 +271,8 @@ Total files: 58
 - Integration with clipboard, browser bookmarks, system settings
 
 ## Thanks to
-- [meetDeveloper](https://github.com/meetDeveloper/freeDictionaryAPI) (For the dictionary api) 
+
+- [meetDeveloper](https://github.com/meetDeveloper/freeDictionaryAPI) (For the dictionary api)
 - [Contributors](#-contributors)
 
 ## Listing bugs
@@ -298,3 +298,8 @@ Pull requests are welcome! Feel free to fork this repo, open issues, and suggest
 </a>
 
 Made with [contrib.rocks](https://contrib.rocks).
+
+## Star History
+
+
+[![Star History Chart](https://api.star-history.com/svg?repos=deepanshusharwan/peppy&type=Date)](https://www.star-history.com/#deepanshusharwan/peppy&Date)

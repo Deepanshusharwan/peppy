@@ -23,9 +23,18 @@ class AppButton(QWidget):
         # self.btn = QPushButton(text = name, icon=QIcon(app_info.get('icon')))
         self.btn.setFixedHeight(35)
         
-        font_path = os.path.abspath(os.path.join(os.path.dirname(__file__),'..','JetBrainsMonoNerdFont-Bold.ttf'))
-        font_id = QFontDatabase.addApplicationFont(font_path)
-        font_family = QFontDatabase.applicationFontFamilies(font_id)[0]
+        try:
+            font_path = os.path.abspath(os.path.join(os.path.dirname(__file__),'..','JetBrainsMonoNerdFont-Bold.ttf'))
+            font_id = QFontDatabase.addApplicationFont(font_path)
+            font_family = QFontDatabase.applicationFontFamilies(font_id)[0]
+        except IndexError:
+            font_path = "/usr/share/fonts/TTF/JetBrainsMonoNerdFont-Bold.ttf"
+            font_id = QFontDatabase.addApplicationFont(font_path)
+            font_family = QFontDatabase.applicationFontFamilies(font_id)[0]
+            font = QFont(font_family, 10)
+            self.font = font
+
+
         font = QFont(font_family, 11)
         self.btn.setFont(font)
         self.hbox = QHBoxLayout() # a horizontal layout to encapsulate the above
@@ -88,7 +97,10 @@ class WordDictionary(QWidget):
         self.get_word_data(word)
 
     def get_word_data(self, word):
-        r = requests.get(f"https://api.dictionaryapi.dev/api/v2/entries/en/{word}")
+        try:
+            r = requests.get(f"https://api.dictionaryapi.dev/api/v2/entries/en/{word}")
+        except requests.exceptions.ConnectionError() or requests.exceptions.ConnectTimeout():
+            self.text_edit.setHtml("<b>Error:</b> Could not connect to the api. Please check your internet connection.")
         
         try:
             entries = r.json()
@@ -101,23 +113,25 @@ class WordDictionary(QWidget):
             return
         
         html_content = ""
+        # Word heading
+        html_content += f"<h1 style='color:white;'>{entries[0].get('word', 'N/A').title()}</h1>"
+        html_content += f"<p style='color:#8424e3;'><b>Phonetic:</b> {entries[0].get('phonetic', 'N/A')}</p>"
+        
+        # Phonetics list
+        if entries[0].get("phonetics"):
+            html_content += "<p><b>Phonetics:</b></p><ul>"
+            for p in entries[0]["phonetics"]:
+                text = p.get("text")
+                audio = p.get("audio")
+                if text:
+                    html_content += f"<li>{text}</li>"
+                if audio:
+                    html_content += f"<li><a href='{audio}' style='color:rgb(36,141,227);'>Audio</a></li>"
+            html_content += "</ul>"
+            
+
         for entry in entries:
-            # Word heading
-            html_content += f"<h1 style='color:white;'>{entry.get('word', 'N/A').title()}</h1>"
-            html_content += f"<p style='color:#8424e3;'><b>Phonetic:</b> {entry.get('phonetic', 'N/A')}</p>"
-            
-            # Phonetics list
-            if entry.get("phonetics"):
-                html_content += "<p><b>Phonetics:</b></p><ul>"
-                for p in entry["phonetics"]:
-                    text = p.get("text")
-                    audio = p.get("audio")
-                    if text:
-                        html_content += f"<li>{text}</li>"
-                    if audio:
-                        html_content += f"<li><a href='{audio}' style='color:rgb(36,141,227);'>Audio</a></li>"
-                html_content += "</ul>"
-            
+
             # Meanings
             for meaning in entry.get("meanings", []):
                 html_content += f"<h3 style='color:darkgreen;'>{meaning.get('partOfSpeech', 'N/A')}</h3>"
