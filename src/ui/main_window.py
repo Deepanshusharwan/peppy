@@ -31,11 +31,19 @@ class MainWindow(QMainWindow):
         self.config_manager()
 
         #font 
-        font_path = os.path.abspath(os.path.join(os.path.dirname(__file__),'..','JetBrainsMonoNerdFont-Bold.ttf'))
-        font_id = QFontDatabase.addApplicationFont(font_path)
-        font_family = QFontDatabase.applicationFontFamilies(font_id)[0]
-        font = QFont(font_family, 10)
-        self.font = font
+        try:
+            font_path = os.path.abspath(os.path.join(os.path.dirname(__file__),'..','JetBrainsMonoNerdFont-Bold.ttf'))
+            font_id = QFontDatabase.addApplicationFont(font_path)
+            font_family = QFontDatabase.applicationFontFamilies(font_id)[0]
+            font = QFont(font_family, 10)
+            self.font = font
+        except IndexError:
+            font_path = "/usr/share/fonts/TTF/JetBrainsMonoNerdFont-Bold.ttf"
+            font_id = QFontDatabase.addApplicationFont(font_path)
+            font_family = QFontDatabase.applicationFontFamilies(font_id)[0]
+            font = QFont(font_family, 10)
+            self.font = font
+
 
         # output area for the shell output
         self.command_display= QTextEdit()

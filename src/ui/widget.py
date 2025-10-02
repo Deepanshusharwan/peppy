@@ -23,9 +23,18 @@ class AppButton(QWidget):
         # self.btn = QPushButton(text = name, icon=QIcon(app_info.get('icon')))
         self.btn.setFixedHeight(35)
         
-        font_path = os.path.abspath(os.path.join(os.path.dirname(__file__),'..','JetBrainsMonoNerdFont-Bold.ttf'))
-        font_id = QFontDatabase.addApplicationFont(font_path)
-        font_family = QFontDatabase.applicationFontFamilies(font_id)[0]
+        try:
+            font_path = os.path.abspath(os.path.join(os.path.dirname(__file__),'..','JetBrainsMonoNerdFont-Bold.ttf'))
+            font_id = QFontDatabase.addApplicationFont(font_path)
+            font_family = QFontDatabase.applicationFontFamilies(font_id)[0]
+        except IndexError:
+            font_path = "/usr/share/fonts/TTF/JetBrainsMonoNerdFont-Bold.ttf"
+            font_id = QFontDatabase.addApplicationFont(font_path)
+            font_family = QFontDatabase.applicationFontFamilies(font_id)[0]
+            font = QFont(font_family, 10)
+            self.font = font
+
+
         font = QFont(font_family, 11)
         self.btn.setFont(font)
         self.hbox = QHBoxLayout() # a horizontal layout to encapsulate the above
