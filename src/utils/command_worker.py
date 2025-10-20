@@ -4,7 +4,7 @@ from configparser import ConfigParser
 import os
 import shlex
 import sys
-
+import select
 
 class WorkerThread(QThread):
     output_signal = pyqtSignal(str)
@@ -48,34 +48,27 @@ class WorkerThread(QThread):
                 if self._is_killed:
                     self._process.terminate()
                     break
+                
+                reads = [self._process.stdout.fileno(), self._process.stderr.fileno()]
+                ret = select.select(reads, [], [])
 
-                stdout_line = self._process.stdout.readline()
-                stderr_line = self._process.stderr.readline()
+                for fd in ret[0]:
+                    if fd == self._process.stdout.fileno():
+                        line = self._process.stdout.readline()
+                        if line:
+                            self.output_signal.emit(line.rstrip())
+                    if fd == self._process.stderr.fileno():
+                        line = self._process.stderr.readline()
+                        if line:
+                            self.error_signal.emit(line.rstrip())
 
-                if stdout_line:
-                    self.output_signal.emit(stdout_line.rstrip())
-                if stderr_line:
-                    self.error_signal.emit(stderr_line.rstrip())
-
-                if not stdout_line and not stderr_line and self._process.poll() is not None:
+                if self._process.poll() is not None:
                     break
-
                     
-            # Drain any remaining output (optional but safe)
-            if self._process.stdout:
-                for line in self._process.stdout:
-                    self.output_signal.emit(line.rstrip())
-
-            if self._process.stderr:
-                for line in self._process.stderr:
-                    self.error_signal.emit(line.rstrip())
-
-
         except Exception as e:
             self.error_signal.emit(f"[ERROR] {str(e)}")
         finally:
             self.finished_signal.emit()
-            # Explicit close to avoid further I/O attempts
             if self._process:
                 if self._process.stdout:
                     self._process.stdout.close()
