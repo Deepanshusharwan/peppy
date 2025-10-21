@@ -1,82 +1,90 @@
-from PyQt6.QtCore import  QThread, pyqtSignal
+from PyQt6.QtCore import QThread, pyqtSignal
 import subprocess
 from configparser import ConfigParser
 import os
-import shlex
-import sys
+import signal
 import select
 
 class WorkerThread(QThread):
+    # Signals for communicating with the GUI thread
     output_signal = pyqtSignal(str)
     error_signal = pyqtSignal(str)
-    finished_signal = pyqtSignal()
+    finished_signal = pyqtSignal(int)  # will emit exit code
 
     def __init__(self, command_text: str):
         super().__init__()
         self.command_text = command_text
-        self._process = None
-        self._is_killed = False
-
+        self.process = None
+        self.is_terminated = False
 
     def run(self):
         try:
-            try:
-                CONFIG_PATH = f"{os.environ.get('HOME','~')}/.config/peppy/peppy.conf"
-                os.path.isfile(CONFIG_PATH)            
-                config = ConfigParser(interpolation=None)
-                config.read(CONFIG_PATH)
-                paths = config["MISC"].get('PATHS')
-            except KeyError:
-                config["MISC"] = {
-                    'PATHS': ''
-                }
-                paths = ''
-                with open(CONFIG_PATH,'w') as configfile:
-                    config.write(configfile)
+            # --- Load configuration file ---
+            config_path = f"{os.environ.get('HOME', '~')}/.config/peppy/peppy.conf"
+            config = ConfigParser(interpolation=None)
+            config.read(config_path)
 
-            command = f'export PATH="$PATH:{paths}";{self.command_text}'
-            self._process = subprocess.Popen(command,
-                                             stdout=subprocess.PIPE,
-                                             stderr=subprocess.PIPE,
-                                             shell = True,
-                                             text=True,
-                                             bufsize=1,
-                                             universal_newlines=True
-                                             )
+            # Retrieve additional PATH entries from config, if any
+            custom_paths = config.get("MISC", "PATHS", fallback="")
 
+            # --- Prepare command ---
+            # Use bash explicitly to support `export`
+            full_command = (
+                f'bash -c "export PATH=\\"$PATH:{custom_paths}\\"; {self.command_text}"'
+            )
+
+            # --- Start subprocess in a new process group ---
+            self.process = subprocess.Popen(
+                full_command,
+                stdout=subprocess.PIPE,
+                stderr=subprocess.PIPE,
+                shell=True,
+                text=True,
+                bufsize=1,
+                universal_newlines=True,
+                preexec_fn=os.setsid,  # ensures we can terminate child processes safely
+            )
+
+            # --- Read process output in real time ---
             while True:
-                if self._is_killed:
-                    self._process.terminate()
+                if self.is_terminated:
+                    os.killpg(os.getpgid(self.process.pid), signal.SIGTERM)
                     break
-                
-                reads = [self._process.stdout.fileno(), self._process.stderr.fileno()]
-                ret = select.select(reads, [], [])
 
-                for fd in ret[0]:
-                    if fd == self._process.stdout.fileno():
-                        line = self._process.stdout.readline()
+                read_descriptors = [self.process.stdout.fileno(), self.process.stderr.fileno()]
+                ready_descriptors, _, _ = select.select(read_descriptors, [], [])
+
+                for descriptor in ready_descriptors:
+                    if descriptor == self.process.stdout.fileno():
+                        line = self.process.stdout.readline()
                         if line:
                             self.output_signal.emit(line.rstrip())
-                    if fd == self._process.stderr.fileno():
-                        line = self._process.stderr.readline()
+                    elif descriptor == self.process.stderr.fileno():
+                        line = self.process.stderr.readline()
                         if line:
                             self.error_signal.emit(line.rstrip())
 
-                if self._process.poll() is not None:
+                if self.process.poll() is not None:
                     break
-                    
-        except Exception as e:
-            self.error_signal.emit(f"[ERROR] {str(e)}")
+
+            exit_code = self.process.returncode or 0
+
+        except Exception as exception:
+            self.error_signal.emit(f"[ERROR] {str(exception)}")
+            exit_code = 1
+
         finally:
-            self.finished_signal.emit()
-            if self._process:
-                if self._process.stdout:
-                    self._process.stdout.close()
-                if self._process.stderr:
-                    self._process.stderr.close()
+            # Clean up I/O streams
+            if self.process:
+                if self.process.stdout:
+                    self.process.stdout.close()
+                if self.process.stderr:
+                    self.process.stderr.close()
+
+            self.finished_signal.emit(exit_code)
 
     def stop(self):
-        self._is_killed = True
-        if self._process and self._process.poll() is None:
-            self._process.terminate()
-
+        """Request the thread to terminate and kill the process if running."""
+        self.is_terminated = True
+        if self.process and self.process.poll() is None:
+            os.killpg(os.getpgid(self.process.pid), signal.SIGTERM)
