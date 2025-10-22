@@ -49,26 +49,37 @@ class WorkerThread(QThread):
                                              universal_newlines=True
                                              )
 
-            # Use select to read from stdout and stderr in a non-blocking way
+            # Use select to read from stdout and stderr in a non-blocking way.
+            # This approach prevents the QThread from blocking indefinitely on readline() calls,
+            # ensuring it remains responsive to the application's termination signals.
             while True:
+                # Check if the thread has been signaled to stop.
                 if self._is_killed:
-                    self._process.terminate()
+                    # Terminate the subprocess if it's still running.
+                    if self._process and self._process.poll() is None:
+                        self._process.terminate()
                     break
 
-                # Check if there's data to read from stdout or stderr
-                rlist, _, _ = select.select([self._process.stdout, self._process.stderr], [], [], 0.1) # 0.1 second timeout
+                # Use select.select to monitor stdout and stderr pipes for readability.
+                # The 0.1-second timeout ensures that the loop doesn't block for too long
+                # and regularly checks the _is_killed flag.
+                rlist, _, _ = select.select([self._process.stdout, self._process.stderr], [], [], 0.1)
 
+                # Iterate through the file descriptors that are ready for reading.
                 for fd in rlist:
+                    # Read from stdout if it's ready.
                     if fd == self._process.stdout:
                         line = self._process.stdout.readline()
                         if line:
                             self.output_signal.emit(line.rstrip())
+                    # Read from stderr if it's ready.
                     elif fd == self._process.stderr:
                         line = self._process.stderr.readline()
                         if line:
                             self.error_signal.emit(line.rstrip())
 
-                # If the process has terminated and there's no more output, break the loop
+                # Break the loop if the subprocess has terminated and there's no more output
+                # to read from its pipes. This ensures all remaining output is processed.
                 if self._process.poll() is not None and not rlist:
                     break
 
