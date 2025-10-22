@@ -4,6 +4,7 @@ from configparser import ConfigParser
 import os
 import sys
 import threading
+import select
 
 
 class WorkerThread(QThread):
@@ -48,36 +49,28 @@ class WorkerThread(QThread):
                                              universal_newlines=True
                                              )
 
-            # Helper function to read from a stream in a separate thread.
-            # This is crucial for real-time output streaming, as it prevents
-            # blocking when one stream (stdout or stderr) is idle while the other is active.
-            def stream_reader(stream, signal):
-                for line in iter(stream.readline, ''):
-                    if self._is_killed:
-                        break
-                    signal.emit(line.rstrip())
-
-            # Create separate threads to read stdout and stderr.
-            # This allows non-blocking, concurrent reading of both streams,
-            # ensuring that output is displayed as it becomes available,
-            # even if one stream is more active than the other.
-            stdout_thread = threading.Thread(target=stream_reader, args=(self._process.stdout, self.output_signal))
-            stderr_thread = threading.Thread(target=stream_reader, args=(self._process.stderr, self.error_signal))
-
-            stdout_thread.start()
-            stderr_thread.start()
-
-            # The main thread waits here for the subprocess to finish.
-            # It periodically checks if the process has terminated or if a stop signal was received.
-            # This non-blocking wait allows the stream_reader threads to continue emitting output.
-            while self._process.poll() is None:
+            # Use select to read from stdout and stderr in a non-blocking way
+            while True:
                 if self._is_killed:
                     self._process.terminate()
                     break
-                self.msleep(100)  # sleep for 100ms to avoid busy waiting
 
-            stdout_thread.join()
-            stderr_thread.join()
+                # Check if there's data to read from stdout or stderr
+                rlist, _, _ = select.select([self._process.stdout, self._process.stderr], [], [], 0.1) # 0.1 second timeout
+
+                for fd in rlist:
+                    if fd == self._process.stdout:
+                        line = self._process.stdout.readline()
+                        if line:
+                            self.output_signal.emit(line.rstrip())
+                    elif fd == self._process.stderr:
+                        line = self._process.stderr.readline()
+                        if line:
+                            self.error_signal.emit(line.rstrip())
+
+                # If the process has terminated and there's no more output, break the loop
+                if self._process.poll() is not None and not rlist:
+                    break
 
         except Exception as e:
             self.error_signal.emit(f"[ERROR] {str(e)}")
